@@ -1,16 +1,9 @@
 <?php
-
 header('Content-Type: text/html; charset=utf-8');
-
 ?>
 
 <html><head>
 <style>
-
-@font-face {
-	font-family: 'Matrix';
-	src: url('/matrix%20code%20nfi.otf');
-}
 
 html, body {
     margin: 0;
@@ -36,14 +29,17 @@ opaque    = 0.045;
 
 // Full width
 // alpha     = 'ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ０１２３４５６７８９アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+
 // alpha     = '０１２３４５６７８９アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
 // apart     = 1.5; // Space between raindrops (multiple of single drop width)
+// f         = 12; // Fontsize
+// speed     = 27;
 
 // Half width
 alpha     = '0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ';
 apart     = 1.25;
-
-f = 14; // Fontsize
+f         = 14; // Fontsize
+speed     = 34;
 
 window.onload = setTimeout(draw = function() {
 	drops = [];
@@ -98,13 +94,8 @@ window.onload = setTimeout(draw = function() {
 				v > (min+ Math.floor(Math.random() * (max - min) +1) + Math.random() * (h/opaque/2))
 			) ? 0: v + (f * 1.15);
 		});
-	}, 34);
+	}, speed);
 }, 1337);
-
-window.onresize = function(event) {
-	clearInterval(rain);
-	draw();
-}
 
 </script>
 </body></html>
