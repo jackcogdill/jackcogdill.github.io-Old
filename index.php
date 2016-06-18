@@ -22,8 +22,8 @@ html, body {
 <canvas id='q'></canvas>
 <script type='text/javascript'>
 
-normal    = '#5CFF5C',
-brighter  = '#8F8',
+normal    = '#5CFF5C';
+brighter  = '#8F8';
 brightest = '#AFA';
 opaque    = 0.045;
 
@@ -67,20 +67,17 @@ window.onload = setTimeout(draw = function() {
 
 		drops.map(function(v, i){
 			// Add random glowing glyphs
-			if (
-				i > 0 &&
-				i % (
-					9 + Math.floor(Math.random() * (drops.length - 9) +1)
-				) == 0
-			) {
+			// (~5% chance)
+			if (Math.random() > 0.95) {
 				// Glowing white glyphs (white shadow)
-				if (i % 2 == 0) {
+				if (Math.random() > 0.5) {
 					ctx.shadowColor = '#FFF';
 					ctx.shadowOffsetX = 0;
 					ctx.shadowOffsetY = 0;
 					ctx.shadowBlur = 12;
 					ctx.fillStyle = brightest;
 				}
+
 				// More subtle, slightly brighter glyphs that glow for a moment
 				else {
 					reset_shadow();
@@ -91,7 +88,7 @@ window.onload = setTimeout(draw = function() {
 				reset_shadow();
 				ctx.fillStyle = normal;
 			}
-			
+
 			ctx.fillText(alpha.charAt(Math.floor(Math.random() * alpha.length)), i * (f * apart), v);
 			max = h/opaque*0.03,
 			min = h/opaque*0.0225;
