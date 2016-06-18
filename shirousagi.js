@@ -40,7 +40,7 @@ window.onload = setTimeout(function(){
 			// (~5% chance)
 			if (Math.random() > 0.95) {
 				// Glowing white glyphs (white shadow)
-				if (Math.random() > 0.5) {
+				if (Math.random() > 0.67) {
 					ctx.shadowColor = '#FFF';
 					ctx.shadowOffsetX = 0;
 					ctx.shadowOffsetY = 0;
