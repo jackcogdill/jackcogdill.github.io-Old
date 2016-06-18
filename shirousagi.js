@@ -66,8 +66,8 @@ window.onload = setTimeout(function(){
 				y                    // y coord
 			);
 
-			// Reset if raindrop is at or a little past bottom of screen
-			drops[i] = (y > h + Math.random() * (h / 3) )
+			// Reset if raindrop some distance past bottom of screen
+			drops[i] = (y > h + Math.random() * h * 2 / 3 )
 				? 0                    // Reset raindrops at top of screen
 				: y + (fsize * vspce); // Advance down the screen
 		});
