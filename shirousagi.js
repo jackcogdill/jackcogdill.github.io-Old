@@ -1,39 +1,40 @@
-normal    = '#5CFF5C';
-brighter  = '#8F8';
-brightest = '#AFA';
-opaque    = 0.045;
+var normal    = '#5CFF5C';
+var brighter  = '#8F8';
+var brightest = '#AFA';
+var opaque    = 0.045;
 
 // Full width
-// alpha     = '０１２３４５６７８９アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-// apart     = 1.5; // Space between raindrops (multiple of single drop width)
-// f         = 11; // Fontsize
-// speed     = 27;
+// var alpha     = '０１２３４５６７８９アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+// var hspce     = 1.5;
+// var fsize     = 11;
+// var speed     = 27;
 
 // Half width
-alpha     = '0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ';
-apart     = 1.25;
-f         = 14; // Fontsize
-speed     = 34;
+var alpha     = '0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ';
+var hspce     = 1.25; // Horizontal spacing between glyphs
+var vspce     = 1.2;  // Vertical spacing between glyphs
+var fsize     = 14;   // Fontsize
+var speed     = 34;
 
-window.onload = setTimeout(draw = function() {
-	drops = [];
+window.onload = setTimeout(function(){
+	var drops = [];
 
-	w = q.width  = window.innerWidth;
-	h = q.height = window.innerHeight;
-	total_drops = Math.floor( w / (f * apart) );
+	var w = q.width  = window.innerWidth;
+	var h = q.height = window.innerHeight;
+	var total_drops = Math.floor( w / (fsize * hspce) );
 
-	ctx = q.getContext('2d');
+	var ctx = q.getContext('2d');
 	function reset_shadow() {
 		ctx.shadowColor = '';
 		ctx.shadowBlur = 0;
 	}
 
-	for (i = 0; i < total_drops; i++) {
+	for (var i = 0; i < total_drops; i++) {
 		drops[i] = Math.floor( Math.random() * -h ); // Start randomly above screen
 	}
 
-	rain = setInterval(function(){
-		ctx.font = f + 'pt Sans-serif';
+	var rain = setInterval(function(){
+		ctx.font = fsize + 'pt Roboto Mono, sans-serif';
 		reset_shadow();
 
 		ctx.fillStyle = 'rgba(0, 0, 0, '+ opaque +')';
@@ -41,7 +42,7 @@ window.onload = setTimeout(draw = function() {
 
 		ctx.fillStyle = normal;
 
-		drops.map(function(v, i){
+		drops.map(function(y, i){
 			// Add random glowing glyphs
 			// (~5% chance)
 			if (Math.random() > 0.95) {
@@ -65,12 +66,17 @@ window.onload = setTimeout(draw = function() {
 				ctx.fillStyle = normal;
 			}
 
-			ctx.fillText(alpha.charAt(Math.floor(Math.random() * alpha.length)), i * (f * apart), v);
-			max = h/opaque*0.03,
-			min = h/opaque*0.0225;
-			drops[i] = (
-				v > (min+ Math.floor(Math.random() * (max - min) +1) + Math.random() * (h/opaque/2))
-			) ? 0: v + (f * 1.15);
+			// Print letters
+			ctx.fillText(
+				alpha.charAt( Math.floor(Math.random() * alpha.length) ), // Glyph
+				i * (fsize * hspce), // x coord
+				y                    // y coord
+			);
+
+			// Reset if raindrop is at or a little past bottom of screen
+			drops[i] = (y > h + Math.random() * (h / 3) )
+				? 0                    // Reset raindrops at top of screen
+				: y + (fsize * vspce); // Advance down the screen
 		});
 	}, speed);
 }, 1337);
