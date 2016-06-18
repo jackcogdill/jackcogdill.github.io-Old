@@ -3,13 +3,6 @@ var brighter  = '#8F8';
 var brightest = '#AFA';
 var opaque    = 0.045;
 
-// Full width
-// var alpha     = '０１２３４５６７８９アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-// var hspce     = 1.5;
-// var fsize     = 11;
-// var speed     = 27;
-
-// Half width
 var alpha     = '0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ';
 var hspce     = 1.25; // Horizontal spacing between glyphs
 var vspce     = 1.2;  // Vertical spacing between glyphs
