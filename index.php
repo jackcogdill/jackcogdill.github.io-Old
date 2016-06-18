@@ -28,11 +28,9 @@ brightest = '#AFA';
 opaque    = 0.045;
 
 // Full width
-// alpha     = 'ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ０１２３４５６７８９アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-
 // alpha     = '０１２３４５６７８９アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
 // apart     = 1.5; // Space between raindrops (multiple of single drop width)
-// f         = 12; // Fontsize
+// f         = 11; // Fontsize
 // speed     = 27;
 
 // Half width
@@ -44,9 +42,9 @@ speed     = 34;
 window.onload = setTimeout(draw = function() {
 	drops = [];
 
-	w = q.width  = window.innerWidth  - 4;
-	h = q.height = window.innerHeight - 4;
-	total_drops = w / (f * apart);
+	w = q.width  = window.innerWidth;
+	h = q.height = window.innerHeight;
+	total_drops = Math.floor( w / (f * apart) );
 
 	ctx = q.getContext('2d');
 	function reset_shadow() {
@@ -55,12 +53,11 @@ window.onload = setTimeout(draw = function() {
 	}
 
 	for (i = 0; i < total_drops; i++) {
-		// drops[i] = Math.floor(Math.random() * ((i % 3 == 0) ? h: -h));
-		drops[i] = Math.floor(Math.random() * -h); // start randomly above screen
+		drops[i] = Math.floor( Math.random() * -h ); // Start randomly above screen
 	}
 
 	rain = setInterval(function(){
-		ctx.font = f + 'pt sans-serif';
+		ctx.font = f + 'pt Sans-serif';
 		reset_shadow();
 
 		ctx.fillStyle = 'rgba(0, 0, 0, '+ opaque +')';
@@ -69,14 +66,22 @@ window.onload = setTimeout(draw = function() {
 		ctx.fillStyle = normal;
 
 		drops.map(function(v, i){
-			if (i > 0 && i % (9 + Math.floor(Math.random() * (drops.length - 9) +1)) == 0) {
+			// Add random glowing glyphs
+			if (
+				i > 0 &&
+				i % (
+					9 + Math.floor(Math.random() * (drops.length - 9) +1)
+				) == 0
+			) {
+				// Glowing white glyphs (white shadow)
 				if (i % 2 == 0) {
-					ctx.shadowColor = '#fff';
+					ctx.shadowColor = '#FFF';
 					ctx.shadowOffsetX = 0;
 					ctx.shadowOffsetY = 0;
 					ctx.shadowBlur = 12;
 					ctx.fillStyle = brightest;
 				}
+				// More subtle, slightly brighter glyphs that glow for a moment
 				else {
 					reset_shadow();
 					ctx.fillStyle = brighter;
