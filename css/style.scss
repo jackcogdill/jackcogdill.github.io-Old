@@ -11,6 +11,16 @@ html, body {
 	overflow: hidden;
 }
 
+a {
+	color: #63B963;
+	@include transition(color 0.33s ease);
+	text-decoration: underline;
+}
+
+a:hover {
+	color: #8F8;
+}
+
 #q {
 	margin: 0 auto;
 	display: block;
@@ -89,15 +99,8 @@ html, body {
 		text-align: center;
 
 		> a {
-			color: #63B963;
-			@include transition(color 0.33s ease);
 			font-size: 12px;
 			font-family: $font;
-			text-decoration: underline;
-		}
-
-		> a:hover {
-			color: #8F8;
 		}
 	}
 }
