@@ -1,6 +1,9 @@
 // sass -t compressed --watch style.scss:style.css
 @import "mixins";
 
+$sans-serif: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
+             Helvetica, Arial, "Lucida Grande", sans-serif;
+
 html, body {
 	margin: 0;
 	width: 100%;
@@ -26,6 +29,7 @@ html, body {
 	@include transition(opacity 1.0s ease-in);
 
 	$softer: #2A742A;
+	$softer_rgba: rgba(42, 116, 42, 0.75);
 	> hr {
 		display: block;
 		height: 1px;
@@ -35,7 +39,15 @@ html, body {
 		padding: 0;
 	}
 
-	> div {
+	> div.info-text {
+		color: #63B963;
+		font-size: 18;
+		font-family: $sans-serif;
+		text-align: center;
+		letter-spacing: 2px;
+	}
+
+	> div#svg-container {
 		width: 83%;
 		margin: 15% auto 0;
 		display: flex;
@@ -47,7 +59,7 @@ html, body {
 			height: $svg_cntr;
 			display: inline-block;
 			border: 1px solid $softer;
-			@include border-radius(3px);
+			@include border-radius(8px);
 			@include transition(border-color 0.33s ease);
 
 			> svg {
@@ -57,7 +69,7 @@ html, body {
 				margin: ( ($svg_cntr - $svg) / 2 ) auto 0;
 				fill: #5CFF5C;
 				-webkit-mask-image: -webkit-gradient(
-					linear, left top, left bottom, from(#5CFF5C), to(rgba(92,255,92,0.75))
+					linear, left top, left bottom, from($softer), to($softer_rgba)
 				);
 			}
 		}
