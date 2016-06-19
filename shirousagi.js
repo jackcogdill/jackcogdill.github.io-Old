@@ -1,4 +1,4 @@
-var text        = 'HELLO WORLD';
+var text        = 'JACK COGDILL';
 
 var normal      = '#5CFF5C';
 var brighter    = '#8F8';
@@ -14,6 +14,10 @@ var font        = fsize + 'pt ' + font_family + ', monospace';
 var speed       = 34;
 
 var stop        = false;
+
+function complete() {
+	info.style.opacity = "1";
+}
 
 window.onload = setTimeout(function(){
 	var drops = []; // Array for raindrops
@@ -50,8 +54,8 @@ window.onload = setTimeout(function(){
 	var right   = hmiddle + (text.length - half_t); // Raindrop column index to end   text
 
 	var glyph_h = (fsize * vspce);
-	var vspot = Math.floor( h / glyph_h * 3 / 7 ); // Vertical location on screen for text (in glyphs)
-	                                               // Putting at 3/7s of the screen's height
+	var vspot = Math.floor( h / glyph_h / 3 ); // Vertical location on screen for text (in glyphs)
+	                                           // Putting at 1/3 of the screen's height
 	vspot *= glyph_h; // Put in y coords
 
 	for (var i = 0; i < total_drops; i++) {
@@ -69,7 +73,7 @@ window.onload = setTimeout(function(){
 		drops.map(function(y, i){
 			if (perma[i]) {
 				ctx.fillText(
-					text.charAt(i - left), // Glyph
+					text.charAt(i - left),  // Glyph
 					i * (fsize * hspce),    // x coord
 					y                       // y coord
 				);
@@ -94,17 +98,18 @@ window.onload = setTimeout(function(){
 				draw_perma();
 			}
 		}, speed);
+		complete(); // Run synchronously with black()
 	}
 
 	function fade() {
 		var i = 0;
 		var clean = setInterval(function(){
 			reset_shadow();
-			ctx.fillStyle = 'rgba(0, 0, 0, '+ opaque +')';
+			ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
 			ctx.fillRect(0, 0, w, h);
 			draw_perma();
 
-			if (++i == 45) {
+			if (++i == 25) {
 				clearInterval(clean);
 				blacken();
 			}
@@ -132,7 +137,7 @@ window.onload = setTimeout(function(){
 				var sum = 0;
 				finsh.forEach( (v) => { v ? sum++ : 0; } );
 				// Signal to stop the raining once half the text has formed
-				if (sum >= half_t) {
+				if (sum >= Math.floor( text.length / 3 )) {
 					stop = true;
 				}
 
@@ -151,7 +156,7 @@ window.onload = setTimeout(function(){
 				finsh[i] = true;
 
 				ctx.fillText(
-					text.charAt(i - left), // Glyph
+					text.charAt(i - left),  // Glyph
 					i * (fsize * hspce),    // x coord
 					y                       // y coord
 				);
