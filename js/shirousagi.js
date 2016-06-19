@@ -16,6 +16,7 @@ var speed       = 34;
 var stop        = false;
 
 function complete() {
+	info.style.zIndex  = "2";
 	info.style.opacity = "1";
 }
 

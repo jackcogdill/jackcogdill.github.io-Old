@@ -1,9 +1,6 @@
 // sass -t compressed --watch style.scss:style.css
 @import "mixins";
 
-$sans-serif: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
-             Helvetica, Arial, "Lucida Grande", sans-serif;
-
 html, body {
 	margin: 0;
 	width: 100%;
@@ -15,16 +12,18 @@ html, body {
 #q {
 	margin: 0 auto;
 	display: block;
+	z-index: 1;
 }
 
 #info {
-	$w: 25%;
+	$w: 30%;
 	width: $w;
 	height: 15%;
 	position: absolute;
 	top: 35%;
 	left: 50% - ($w / 2);
 	background-color: #000;
+	z-index: -1;
 	opacity: 0;
 	@include transition(opacity 1.0s ease-in);
 
@@ -34,7 +33,7 @@ html, body {
 		display: block;
 		height: 1px;
 		border: 0;
-		border-top: 1px solid $softer;
+		border-top: 1px solid #254625;
 		margin: 1em 0;
 		padding: 0;
 	}
@@ -42,14 +41,13 @@ html, body {
 	> div.info-text {
 		color: #63B963;
 		font-size: 18;
-		font-family: $sans-serif;
+		font-family: "Anonymous Pro", monospace;
 		text-align: center;
-		letter-spacing: 2px;
 	}
 
 	> div#svg-container {
-		width: 83%;
-		margin: 15% auto 0;
+		width: 70%;
+		margin: 5% auto;
 		display: flex;
 		justify-content: space-between;
 
@@ -80,6 +78,24 @@ html, body {
 			> svg {
 				fill: #8F8;
 			}
+		}
+	}
+
+	> div#src {
+		display: block;
+		width: 100%;
+		text-align: center;
+
+		> a {
+			color: #63B963;
+			@include transition(color 0.33s ease);
+			font-size: 12px;
+			font-family: "Anonymous Pro", monospace;
+			text-decoration: underline;
+		}
+
+		> a:hover {
+			color: #8F8;
 		}
 	}
 }
