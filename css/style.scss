@@ -1,6 +1,8 @@
 // sass -t compressed --watch style.scss:style.css
 @import "mixins";
 
+$font: "Anonymous Pro", monospace;
+
 html, body {
 	margin: 0;
 	width: 100%;
@@ -41,7 +43,7 @@ html, body {
 	> div.info-text {
 		color: #63B963;
 		font-size: 18;
-		font-family: "Anonymous Pro", monospace;
+		font-family: $font;
 		text-align: center;
 	}
 
@@ -90,7 +92,7 @@ html, body {
 			color: #63B963;
 			@include transition(color 0.33s ease);
 			font-size: 12px;
-			font-family: "Anonymous Pro", monospace;
+			font-family: $font;
 			text-decoration: underline;
 		}
 
