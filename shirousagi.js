@@ -1,26 +1,28 @@
-var title     = 'HELLO WORLD';
+var text        = 'HELLO WORLD';
 
-var normal    = '#5CFF5C';
-var brighter  = '#8F8';
-var brightest = '#AFA';
-var opaque    = 0.045;
+var normal      = '#5CFF5C';
+var brighter    = '#8F8';
+var brightest   = '#AFA';
+var opaque      = 0.045;
 
-var alpha     = '0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ';
-var hspce     = 1.25; // Horizontal spacing between glyphs
-var vspce     = 1.2;  // Vertical spacing between glyphs
-var fsize     = 14;   // Fontsize
-var speed     = 34;
+var alpha       = '0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ';
+var hspce       = 1.0; // Horizontal spacing between glyphs
+var vspce       = 1.2;  // Vertical spacing between glyphs
+var fsize       = 14;   // Fontsize
+var font_family = 'Anonymous Pro';
+var font        = fsize + 'pt ' + font_family + ', monospace';
+var speed       = 34;
 
-var stop = false;
+var stop        = false;
 
 window.onload = setTimeout(function(){
 	var drops = []; // Array for raindrops
-	var perma = [];
-	var finsh = [];
+	var perma = []; // Array of boolean values, is raindrop column for text
+	var finsh = []; // Array of boolean values, signal if raindrop is done permanently
 
 	var w = q.width  = window.innerWidth;
 	var h = q.height = window.innerHeight;
-	var total_drops = Math.floor( w / (fsize * hspce) );
+	var total_drops = Math.floor( w / (fsize * hspce) ); // Total number of raindrops
 
 	var ctx = q.getContext('2d');
 	function reset_shadow() {
@@ -29,30 +31,31 @@ window.onload = setTimeout(function(){
 	}
 
 	var hmiddle = Math.floor( total_drops / 2 ); // Horizontal middle of the screen (in glyphs)
-	var half_t  = Math.floor( title.length / 2 );
-	var left    = hmiddle - half_t;
-	var right   = hmiddle + (title.length - half_t);
+	var half_t  = Math.floor( text.length / 2 );
+	var left    = hmiddle - half_t;                 // Raindrop column index to start text
+	var right   = hmiddle + (text.length - half_t); // Raindrop column index to end   text
 
 	var glyph_h = (fsize * vspce);
-	var vmiddle = Math.floor( h / glyph_h / 2 ); // Vertical   middle of the screen (in glyphs)
-	vmiddle *= glyph_h; // Put in y coords
+	var vspot = Math.floor( h / glyph_h * 3 / 7 ); // Vertical location on screen for text (in glyphs)
+	                                               // Putting at 3/7s of the screen's height
+	vspot *= glyph_h; // Put in y coords
 
 	for (var i = 0; i < total_drops; i++) {
 		drops[i] = Math.floor( Math.random() * -h ); // Start randomly above screen
-		// perma[i] = (i >= left && i < right) && !( /\s/.test(title.charAt(i - left)) ); // Not whitespace
 		perma[i] = (i >= left && i < right);
 		finsh[i] = false;
 	}
 
+	// Redraw the text characters
 	function draw_perma() {
-		ctx.font = fsize + 'pt Roboto Mono, monospace';
+		ctx.font = font;
 		reset_shadow();
 		ctx.fillStyle = normal;
 
 		drops.map(function(y, i){
 			if (perma[i]) {
 				ctx.fillText(
-					title.charAt(i - left), // Glyph
+					text.charAt(i - left), // Glyph
 					i * (fsize * hspce),    // x coord
 					y                       // y coord
 				);
@@ -87,7 +90,7 @@ window.onload = setTimeout(function(){
 			ctx.fillRect(0, 0, w, h);
 			draw_perma();
 
-			if (++i == 67) {
+			if (++i == 45) {
 				clearInterval(clean);
 				blacken();
 			}
@@ -104,13 +107,17 @@ window.onload = setTimeout(function(){
 		ctx.fillStyle = 'rgba(0, 0, 0, '+ opaque +')';
 		ctx.fillRect(0, 0, w, h);
 
-		ctx.font = fsize + 'pt Roboto Mono, monospace';
+		ctx.font = font;
 		ctx.fillStyle = normal;
 
 		drops.map(function(y, i){
-			if (perma[i] && Math.abs(y - vmiddle) < 0.0001) {
+			// Since raindrops start randomly above screen, almost zero chance it
+			// will hit it exactly on the first rain. This allows a few seconds of
+			// raining before forming the text
+			if (perma[i] && Math.abs(y - vspot) < 0.0001) {
 				var sum = 0;
 				finsh.forEach( (v) => { v ? sum++ : 0; } );
+				// Signal to stop the raining once half the text has formed
 				if (sum >= half_t) {
 					stop = true;
 				}
@@ -124,13 +131,13 @@ window.onload = setTimeout(function(){
 				}
 				else {
 					reset_shadow();
-					ctx.fillStyle = normal;
+					ctx.fillStyle = brighter;
 				}
 
 				finsh[i] = true;
 
 				ctx.fillText(
-					title.charAt(i - left), // Glyph
+					text.charAt(i - left), // Glyph
 					i * (fsize * hspce),    // x coord
 					y                       // y coord
 				);
