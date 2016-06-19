@@ -7,8 +7,8 @@ var opaque      = 0.045;
 
 var alpha       = '0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ';
 var hspce       = 1.1; // Horizontal spacing between glyphs
-var vspce       = 1.2;  // Vertical spacing between glyphs
-var fsize       = 14;   // Fontsize
+var vspce       = 1.2; // Vertical spacing between glyphs
+var fsize       = 14;  // Fontsize
 var font_family = 'Anonymous Pro';
 var font        = fsize + 'pt ' + font_family + ', monospace';
 var speed       = 34;
@@ -27,8 +27,6 @@ window.onload = setTimeout(function(){
 
 	var w = q.width  = window.innerWidth;
 	var h = q.height = window.innerHeight;
-	var total_drops = Math.floor( w / (fsize * hspce) ); // Total number of raindrops
-
 	var ctx = q.getContext('2d');
 
 	// Modify canvas to be high DPI
@@ -44,17 +42,25 @@ window.onload = setTimeout(function(){
 	q.style.height = h + "px";
 	ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-	function reset_shadow() {
-		ctx.shadowColor = '';
-		ctx.shadowBlur = 0;
+	var glyph_w = (fsize * hspce); // Width  of one glyph
+	var glyph_h = (fsize * vspce); // Height of one glyph
+	var total_drops = Math.floor( w / (fsize * hspce) ); // Total number of raindrops
+
+	function is_even(n) {
+		return n % 2 == 0;
 	}
+	// XOR: true if different, false if same
+	if (is_even(total_drops) ^ is_even(text.length)) {
+		total_drops--;
+	}
+	var unused = w - total_drops * glyph_w; // Unused (horizontal) canvas space
+	// Using this to center the text on the screen
 
 	var hmiddle = Math.floor( total_drops / 2 ); // Horizontal middle of the screen (in glyphs)
 	var half_t  = Math.floor( text.length / 2 );
 	var left    = hmiddle - half_t;                 // Raindrop column index to start text
 	var right   = hmiddle + (text.length - half_t); // Raindrop column index to end   text
 
-	var glyph_h = (fsize * vspce);
 	var vspot = Math.floor( h / glyph_h / 3 ); // Vertical location on screen for text (in glyphs)
 	                                           // Putting at 1/3 of the screen's height
 	vspot *= glyph_h; // Put in y coords
@@ -63,6 +69,11 @@ window.onload = setTimeout(function(){
 		drops[i] = Math.floor( Math.random() * -h ); // Start randomly above screen
 		perma[i] = (i >= left && i < right);
 		finsh[i] = false;
+	}
+
+	function reset_shadow() {
+		ctx.shadowColor = '';
+		ctx.shadowBlur = 0;
 	}
 
 	// Redraw the text characters
@@ -74,9 +85,9 @@ window.onload = setTimeout(function(){
 		drops.map(function(y, i){
 			if (perma[i]) {
 				ctx.fillText(
-					text.charAt(i - left),  // Glyph
-					i * (fsize * hspce),    // x coord
-					y                       // y coord
+					text.charAt(i - left),    // Glyph
+					unused / 2 + i * glyph_w, // x coord
+					y                         // y coord
 				);
 			}
 		});
@@ -164,9 +175,9 @@ window.onload = setTimeout(function(){
 				finsh[i] = true;
 
 				ctx.fillText(
-					text.charAt(i - left),  // Glyph
-					i * (fsize * hspce),    // x coord
-					y                       // y coord
+					text.charAt(i - left),    // Glyph
+					unused / 2 + i * glyph_w, // x coord
+					y                         // y coord
 				);
 			}
 			else {
@@ -196,8 +207,8 @@ window.onload = setTimeout(function(){
 				// Print letters
 				ctx.fillText(
 					alpha.charAt( Math.floor(Math.random() * alpha.length) ), // Glyph
-					i * (fsize * hspce), // x coord
-					y                    // y coord
+					unused / 2 + i * glyph_w, // x coord
+					y                         // y coord
 				);
 
 				// Reset if raindrop some distance past bottom of screen
