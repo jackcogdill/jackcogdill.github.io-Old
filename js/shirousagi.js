@@ -118,7 +118,10 @@ window.onload = setTimeout(function(){
 	}
 
 	var rain = setInterval(function(){
-		if (finsh.every( (v) => v )) { // Check all boolean values in array
+		// Check all boolean values in array
+		if (finsh.every(function(v){
+				return v;
+		})) {
 			clearInterval(rain);
 			fade();
 		}
@@ -136,7 +139,11 @@ window.onload = setTimeout(function(){
 			// raining before forming the text
 			if (perma[i] && Math.abs(y - vspot) < 0.0001) {
 				var sum = 0;
-				finsh.forEach( (v) => { v ? sum++ : 0; } );
+				finsh.forEach(function(v){
+					if (v) {
+						sum++;
+					}
+				});
 				// Signal to stop the raining once half the text has formed
 				if (sum >= Math.floor( text.length / 3 )) {
 					stop = true;
