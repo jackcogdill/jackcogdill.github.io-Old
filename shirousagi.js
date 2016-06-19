@@ -6,7 +6,7 @@ var brightest   = '#AFA';
 var opaque      = 0.045;
 
 var alpha       = '0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ';
-var hspce       = 1.0; // Horizontal spacing between glyphs
+var hspce       = 1.1; // Horizontal spacing between glyphs
 var vspce       = 1.2;  // Vertical spacing between glyphs
 var fsize       = 14;   // Fontsize
 var font_family = 'Anonymous Pro';
@@ -25,6 +25,20 @@ window.onload = setTimeout(function(){
 	var total_drops = Math.floor( w / (fsize * hspce) ); // Total number of raindrops
 
 	var ctx = q.getContext('2d');
+
+	// Modify canvas to be high DPI
+	// Lovingly adapted from http://stackoverflow.com/a/15666143/1313757
+	var dpr = window.devicePixelRatio          || 1;
+	var bsr = ctx.webkitBackingStorePixelRatio || ctx.mozBackingStorePixelRatio ||
+	          ctx.msBackingStorePixelRatio     || ctx.oBackingStorePixelRatio   ||
+	          ctx.backingStorePixelRatio       || 1;
+	var ratio = dpr / bsr;
+	q.width  = w * ratio;
+	q.height = h * ratio;
+	q.style.width  = w + "px";
+	q.style.height = h + "px";
+	ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
 	function reset_shadow() {
 		ctx.shadowColor = '';
 		ctx.shadowBlur = 0;
