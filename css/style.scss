@@ -28,7 +28,7 @@ a:hover {
 }
 
 #info {
-	$w: 30%;
+	$w: 35%;
 	width: $w;
 	height: 15%;
 	position: absolute;
@@ -58,13 +58,17 @@ a:hover {
 	}
 
 	> div#svg-container {
-		width: 70%;
+		$svg: 64px;
+		$svg_cntr: $svg * 3 / 2;
+		$svg_marg: $svg / 2;
+
+		width: 80%;
+		min-width: $svg_cntr * 3 + $svg_marg * 2;
 		margin: 5% auto;
 		display: flex;
 		justify-content: space-between;
 
 		> a {
-			$svg_cntr: 96px;
 			width:  $svg_cntr;
 			height: $svg_cntr;
 			display: inline-block;
@@ -74,9 +78,8 @@ a:hover {
 
 			> svg {
 				display: block;
-				$svg: 64px;
 				height: $svg;
-				margin: ( ($svg_cntr - $svg) / 2 ) auto 0;
+				margin: ( $svg_marg / 2 ) auto 0;
 				fill: #5CFF5C;
 				-webkit-mask-image: -webkit-gradient(
 					linear, left top, left bottom, from($softer), to($softer_rgba)
