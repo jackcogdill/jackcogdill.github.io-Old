@@ -4,10 +4,11 @@
 $font: "Anonymous Pro", monospace;
 $fonts: 18px;
 
-$soft:      #2A742A;
-$softer:    #63B963;
-$softest:   #254625;
-$brightest: #43B943;
+$soft:     #2A742A;
+$soft_2:   #63B963;
+$soft_3:   #254625;
+$bright:   #43B943;
+$bright_2: #5CFF5C;
 
 html, body {
 	margin: 0;
@@ -18,7 +19,7 @@ html, body {
 }
 
 a {
-	color: $softer;
+	color: $soft_2;
 	@include transition(color 0.33s ease);
 	text-decoration: underline;
 }
@@ -33,6 +34,8 @@ a:hover {
 	z-index: 1;
 }
 
+$tsize: $fonts / 2;
+
 .arrow-up {
 	display: block;
 	opacity: 0;
@@ -40,14 +43,27 @@ a:hover {
 	left: 0;
 	right: 0;
 	margin: 0 auto;
-	top: $fonts - 2px;
+	top: $fonts - 1px;
 	width: 0;
 	height: 0;
-	$tsize: $fonts / 3;
+	z-index: 2;
 	border-left:   $tsize solid transparent;
 	border-right:  $tsize solid transparent;
-	border-bottom: $tsize solid $softer;
+	border-bottom: $tsize solid $soft_2;
 	@include transition(opacity 0.33s ease);
+}
+
+.arrow-up:before {
+	content: "";
+	display: block;
+	position: relative;
+	left: 1 - ($fonts / 2);
+	top: 1px;
+	width: 0;
+	height: 0;
+	border-left:   ($tsize - 1) solid transparent;
+	border-right:  ($tsize - 1) solid transparent;
+	border-bottom: ($tsize - 1) solid #000;
 }
 
 #info {
@@ -67,7 +83,7 @@ a:hover {
 		display: block;
 		height: 1px;
 		border: 0;
-		border-top: 1px solid $softest;
+		border-top: 1px solid $soft_3;
 		margin: 1em 0;
 		padding: 0;
 	}
@@ -103,7 +119,7 @@ a:hover {
 					display: block;
 					height: $svg;
 					margin: ( $svg_marg / 2 ) auto 0;
-					fill: #5CFF5C;
+					fill: $bright_2;
 					-webkit-mask-image: -webkit-gradient(
 						linear, left top, left bottom, from($soft), to($soft_rgba)
 					);
@@ -111,7 +127,7 @@ a:hover {
 			}
 
 			> a:hover {
-				border-color: $brightest;
+				border-color: $bright;
 
 				> svg {
 					fill: #8F8;
@@ -132,11 +148,11 @@ a:hover {
 				text-align: center;
 				padding: 4px 0;
 				margin: 1em 0 0 0;
-				border: 1px solid $softest;
+				border: 1px solid $soft;
 				@include border-radius(1px);
 				@include transition(opacity 0.33s ease);
 
-				color: #63B963;
+				color: $bright_2;
 				font-family: $font;
 			}
 		}
