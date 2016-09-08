@@ -2,6 +2,12 @@
 @import "mixins";
 
 $font: "Anonymous Pro", monospace;
+$fonts: 18px;
+
+$soft:      #2A742A;
+$softer:    #63B963;
+$softest:   #254625;
+$brightest: #43B943;
 
 html, body {
 	margin: 0;
@@ -12,7 +18,7 @@ html, body {
 }
 
 a {
-	color: #63B963;
+	color: $softer;
 	@include transition(color 0.33s ease);
 	text-decoration: underline;
 }
@@ -27,6 +33,23 @@ a:hover {
 	z-index: 1;
 }
 
+.arrow-up {
+	display: block;
+	opacity: 0;
+	position: relative;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	top: $fonts - 2px;
+	width: 0;
+	height: 0;
+	$tsize: $fonts / 3;
+	border-left:   $tsize solid transparent;
+	border-right:  $tsize solid transparent;
+	border-bottom: $tsize solid $softer;
+	@include transition(opacity 0.33s ease);
+}
+
 #info {
 	$w: 35%;
 	width: $w;
@@ -39,59 +62,82 @@ a:hover {
 	opacity: 0;
 	@include transition(opacity 1.0s ease-in);
 
-	$softer: #2A742A;
-	$softer_rgba: rgba(42, 116, 42, 0.75);
+	$soft_rgba: rgba(42, 116, 42, 0.75);
 	> hr {
 		display: block;
 		height: 1px;
 		border: 0;
-		border-top: 1px solid #254625;
+		border-top: 1px solid $softest;
 		margin: 1em 0;
 		padding: 0;
 	}
 
 	> div.info-text {
 		color: #63B963;
-		font-size: 18;
+		font-size: $fonts;
 		font-family: $font;
 		text-align: center;
 	}
 
-	> div#svg-container {
-		$svg: 64px;
-		$svg_cntr: $svg * 3 / 2;
-		$svg_marg: $svg / 2;
+	$svg: 64px;
+	$svg_cntr: $svg * 3 / 2;
+	$svg_marg: $svg / 2;
 
+	> div#svg-container {
 		width: 80%;
 		min-width: $svg_cntr * 3 + $svg_marg * 2;
 		margin: 5% auto;
 		display: flex;
 		justify-content: space-between;
 
-		> a {
-			width:  $svg_cntr;
-			height: $svg_cntr;
-			display: inline-block;
-			border: 1px solid $softer;
-			@include border-radius(8px);
-			@include transition(border-color 0.33s ease);
+		> div {
+			> a {
+				width:  $svg_cntr;
+				height: $svg_cntr;
+				display: inline-block;
+				border: 1px solid $soft;
+				@include border-radius(4px);
+				@include transition(border-color 0.33s ease);
 
-			> svg {
-				display: block;
-				height: $svg;
-				margin: ( $svg_marg / 2 ) auto 0;
-				fill: #5CFF5C;
-				-webkit-mask-image: -webkit-gradient(
-					linear, left top, left bottom, from($softer), to($softer_rgba)
-				);
+				> svg {
+					display: block;
+					height: $svg;
+					margin: ( $svg_marg / 2 ) auto 0;
+					fill: #5CFF5C;
+					-webkit-mask-image: -webkit-gradient(
+						linear, left top, left bottom, from($soft), to($soft_rgba)
+					);
+				}
 			}
-		}
 
-		> a:hover {
-			border-color: #43B943;
+			> a:hover {
+				border-color: $brightest;
 
-			> svg {
-				fill: #8F8;
+				> svg {
+					fill: #8F8;
+				}
+
+				+ span + div {
+					opacity: 1;
+				}
+
+				+ span {
+					opacity: 1;
+				}
+			}
+
+			> div {
+				display: block;
+				opacity: 0;
+				text-align: center;
+				padding: 4px 0;
+				margin: 1em 0 0 0;
+				border: 1px solid $softest;
+				@include border-radius(1px);
+				@include transition(opacity 0.33s ease);
+
+				color: #63B963;
+				font-family: $font;
 			}
 		}
 	}
@@ -100,6 +146,8 @@ a:hover {
 		display: block;
 		width: 100%;
 		text-align: center;
+		position: absolute;
+		bottom: -( ($svg + $fonts * 2 + 4px * 2) + ($fonts * 3) );
 
 		> a {
 			font-size: 12px;
