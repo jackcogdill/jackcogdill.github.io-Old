@@ -11,13 +11,17 @@ var vspce       = 1.2; // Vertical spacing between glyphs
 var fsize       = 14;  // Fontsize
 var font_family = 'Anonymous Pro';
 var font        = fsize + 'pt ' + font_family + ', monospace';
-var speed       = 34;
 
+var speed       = 34;
 var stop        = false;
+var pause       = 1337;
 
 function complete() {
-	info.style.zIndex  = "2";
+	info.style.zIndex = "2";
+	src.style.zIndex  = "2";
+
 	info.style.opacity = "1";
+	src.style.opacity  = "1";
 }
 
 window.onload = setTimeout(function(){
@@ -230,4 +234,4 @@ window.onload = setTimeout(function(){
 			}
 		});
 	}, speed);
-}, 1337);
+}, pause / 3);

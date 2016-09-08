@@ -7,8 +7,12 @@ $fonts: 18px;
 $soft:     #2A742A;
 $soft_2:   #63B963;
 $soft_3:   #254625;
+$soft_4:   #0E1C0E;
 $bright:   #43B943;
 $bright_2: #5CFF5C;
+$high:     #8F8;
+
+$soft_rgba: rgba(42, 116, 42, 0.75);
 
 html, body {
 	margin: 0;
@@ -19,13 +23,18 @@ html, body {
 }
 
 a {
-	color: $soft_2;
 	@include transition(color 0.33s ease);
 	text-decoration: underline;
 }
 
-a:hover {
-	color: #8F8;
+::selection {
+	background: #5CFF5C;
+	color: #000;
+}
+
+::-moz-selection {
+	background: #5CFF5C;
+	color: #000;
 }
 
 #q {
@@ -49,7 +58,7 @@ $tsize: $fonts / 2;
 	z-index: 2;
 	border-left:   $tsize solid transparent;
 	border-right:  $tsize solid transparent;
-	border-bottom: $tsize solid $soft_2;
+	border-bottom: $tsize solid $soft;
 	@include transition(opacity 0.33s ease);
 }
 
@@ -76,23 +85,30 @@ $tsize: $fonts / 2;
 	background-color: #000;
 	z-index: -1;
 	opacity: 0;
-	@include transition(opacity 1.0s ease-in);
+	@include transition(opacity 0.7s ease-in);
 
-	$soft_rgba: rgba(42, 116, 42, 0.75);
 	> hr {
 		display: block;
 		height: 1px;
 		border: 0;
-		border-top: 1px solid $soft_3;
-		margin: 1em 0;
+		border-top: 1px solid $soft_4;
+		margin: 2em 0;
 		padding: 0;
 	}
 
 	> div.info-text {
-		color: #63B963;
-		font-size: $fonts;
+		color: $soft_2;
+		font-size: $fonts * 5 / 6;
 		font-family: $font;
 		text-align: center;
+
+		> a {
+			color: $soft_2;
+		}
+
+		> a:hover {
+			color: $high;
+		}
 	}
 
 	$svg: 64px;
@@ -111,7 +127,7 @@ $tsize: $fonts / 2;
 				width:  $svg_cntr;
 				height: $svg_cntr;
 				display: inline-block;
-				border: 1px solid $soft;
+				border: 1px solid $soft_3;
 				@include border-radius(4px);
 				@include transition(border-color 0.33s ease);
 
@@ -127,10 +143,10 @@ $tsize: $fonts / 2;
 			}
 
 			> a:hover {
-				border-color: $bright;
+				border-color: $soft;
 
 				> svg {
-					fill: #8F8;
+					fill: $high;
 				}
 
 				+ span + div {
@@ -148,26 +164,36 @@ $tsize: $fonts / 2;
 				text-align: center;
 				padding: 4px 0;
 				margin: 1em 0 0 0;
-				border: 1px solid $soft;
+				border: 1px solid $soft_3;
 				@include border-radius(1px);
 				@include transition(opacity 0.33s ease);
 
-				color: $bright_2;
+				color: $bright;
 				font-family: $font;
 			}
 		}
 	}
+}
 
-	> div#src {
-		display: block;
-		width: 100%;
-		text-align: center;
-		position: absolute;
-		bottom: -( ($svg + $fonts * 2 + 4px * 2) + ($fonts * 3) );
+#src {
+	background-color: #000;
+	z-index: -1;
+	opacity: 0;
+	@include transition(opacity 0.7s ease-in);
 
-		> a {
-			font-size: 12px;
-			font-family: $font;
-		}
+	display: block;
+	width: 100%;
+	text-align: center;
+	position: absolute;
+	bottom: $fonts * 1.5;
+
+	> a {
+		color: $soft_3;
+		font-size: $fonts * 2 / 3;
+		font-family: $font;
+	}
+
+	> a:hover {
+		color: $soft_2;
 	}
 }
