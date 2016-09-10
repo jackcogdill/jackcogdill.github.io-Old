@@ -50,11 +50,8 @@ window.onload = setTimeout(function(){
 	var glyph_h = (fsize * vspce); // Height of one glyph
 	var total_drops = Math.floor( w / (fsize * hspce) ); // Total number of raindrops
 
-	function is_even(n) {
-		return n % 2 == 0;
-	}
-	// XOR: true if different, false if same
-	if (is_even(total_drops) ^ is_even(text.length)) {
+	// Both 'total_drops' and 'text.length' must be either even or odd to easily center
+	if ( (total_drops + text.length) % 2 == 1 ) {
 		total_drops--;
 	}
 	var unused = w - total_drops * glyph_w; // Unused (horizontal) canvas space
