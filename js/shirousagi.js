@@ -68,7 +68,10 @@ window.onload = setTimeout(function(){
 	vspot *= glyph_h; // Put in y coords
 
 	for (var i = 0; i < total_drops; i++) {
-		drops[i] = Math.floor( Math.random() * -h ); // Start randomly above screen
+		// Start randomly above screen
+		drops[i] = -1 * Math.floor( Math.random() * (h / glyph_h) ) * glyph_h;
+		drops[i] += 0.1337; // Add an offset so it will never align with the permanent letters
+		                    // the first time
 		perma[i] = (i >= left && i < right);
 		finsh[i] = false;
 	}
@@ -188,9 +191,11 @@ window.onload = setTimeout(function(){
 		ctx.fillStyle = normal;
 
 		drops.map(function(y, i){
-			// Since raindrops start randomly above screen, almost zero chance it
-			// will hit it exactly on the first rain. This allows a few seconds of
-			// raining before forming the text
+			// [No chance for raindrops to hit it exactly on the first rain becasue of
+			//  the added offset. This allows a few seconds of raining before forming
+			//  the text]
+			// Check to see if the position equals the position of the permanent text.
+			// If it does, draw the letter
 			if (perma[i] && Math.abs(y - vspot) < 0.0001) {
 				var sum = 0;
 				finsh.forEach(function(v){
