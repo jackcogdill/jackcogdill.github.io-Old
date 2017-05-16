@@ -15,7 +15,7 @@ var font        = fsize + 'pt ' + font_family + ', monospace';
 var speed       = 28; // Speed of rain iterations in milliseconds (smaller = faster)
 var fade_speed  = 34;
 var stop        = false;
-var pause       = 1337;
+var pause       = 500; // Wait this many milliseconds before starting rain
 
 function complete_page() {
 	info.style.zIndex = '2';
@@ -280,4 +280,4 @@ window.onload = setTimeout(function(){
 			}
 		});
 	}, speed);
-}, pause / 3);
+}, pause);
