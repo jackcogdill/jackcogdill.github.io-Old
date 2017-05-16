@@ -72,7 +72,8 @@ window.onload = setTimeout(function(){
 		drops[i] = -1 * Math.floor( Math.random() * (h / glyph_h) ) * glyph_h;
 		drops[i] += 0.1337; // Add an offset so it will never align with the permanent letters
 		                    // the first time
-		perma[i] = (i >= left && i < right);
+		perma[i] = (i >= left && i < right)
+		           && (text.charAt(i - left) != ' '); // Spaces are not permanent letters
 		finsh[i] = false;
 	}
 
@@ -203,8 +204,8 @@ window.onload = setTimeout(function(){
 						sum++;
 					}
 				});
-				// Signal to stop the raining if a third of the text has formed
-				if (sum >= Math.floor( text.length / 3 )) {
+				// Signal to stop the raining if half of the text has formed
+				if (sum >= Math.floor( text.length / 2 )) {
 					stop = true;
 				}
 
