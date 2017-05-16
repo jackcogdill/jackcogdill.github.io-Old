@@ -12,7 +12,7 @@ var fsize       = 14;  // Fontsize
 var font_family = 'Anonymous Pro';
 var font        = fsize + 'pt ' + font_family + ', monospace';
 
-var speed       = 28; // Speed of rain iterations in milliseconds (smaller = faster)
+var speed       = 30; // Speed of rain iterations in milliseconds (smaller = faster)
 var fade_speed  = 34;
 var stop        = false;
 var pause       = 500; // Wait this many milliseconds before starting rain
