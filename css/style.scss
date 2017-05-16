@@ -9,7 +9,7 @@ $soft_2:   #63B963;
 $soft_3:   #254625;
 $soft_4:   #0E1C0E;
 $bright:   #43B943;
-$bright_2: #5CFF5C;
+$bright_2: #5CFF5C; // normal from /js/shirousagi.js
 $high:     #8F8;
 
 $soft_rgba: rgba(42, 116, 42, 0.75);
@@ -18,7 +18,7 @@ html, body {
 	margin: 0;
 	width: 100%;
 	height: 100%;
-	background-color: #000;
+	background: #000;
 	overflow: hidden;
 }
 
@@ -37,7 +37,7 @@ a {
 	color: #000;
 }
 
-#q {
+#canvas {
 	margin: 0 auto;
 	display: block;
 	z-index: 1;
@@ -59,7 +59,6 @@ $tsize: $fonts / 2;
 	border-left:   $tsize solid transparent;
 	border-right:  $tsize solid transparent;
 	border-bottom: $tsize solid $soft;
-	@include transition(opacity 0.33s ease);
 }
 
 .arrow-up:before {
@@ -82,10 +81,8 @@ $tsize: $fonts / 2;
 	position: absolute;
 	top: 35%;
 	left: 50% - ($w / 2);
-	background-color: #000;
 	z-index: -1;
 	opacity: 0;
-	@include transition(opacity 0.7s ease-in);
 
 	> hr {
 		display: block;
@@ -166,20 +163,21 @@ $tsize: $fonts / 2;
 				margin: 1em 0 0 0;
 				border: 1px solid $soft_3;
 				@include border-radius(1px);
-				@include transition(opacity 0.33s ease);
 
 				color: $bright;
 				font-family: $font;
+			}
+
+			> div, > span {
+				@include transition(opacity 0.2s ease-out);
 			}
 		}
 	}
 }
 
 #src {
-	background-color: #000;
 	z-index: -1;
 	opacity: 0;
-	@include transition(opacity 0.7s ease-in);
 
 	display: block;
 	width: 100%;
@@ -196,4 +194,9 @@ $tsize: $fonts / 2;
 	> a:hover {
 		color: $soft_2;
 	}
+}
+
+// For the complete() function in /js/shirousagi.js
+#info, #src {
+	@include transition(opacity 0.7s ease-in);
 }

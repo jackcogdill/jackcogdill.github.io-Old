@@ -12,16 +12,17 @@ var fsize       = 14;  // Fontsize
 var font_family = 'Anonymous Pro';
 var font        = fsize + 'pt ' + font_family + ', monospace';
 
-var speed       = 34;
+var speed       = 28; // Speed of rain iterations in milliseconds (smaller = faster)
+var fade_speed  = 34;
 var stop        = false;
 var pause       = 1337;
 
-function complete() {
-	info.style.zIndex = "2";
-	src.style.zIndex  = "2";
+function complete_page() {
+	info.style.zIndex = '2';
+	src.style.zIndex  = '2';
 
-	info.style.opacity = "1";
-	src.style.opacity  = "1";
+	info.style.opacity   = '1';
+	src.style.opacity    = '1';
 }
 
 window.onload = setTimeout(function(){
@@ -29,9 +30,9 @@ window.onload = setTimeout(function(){
 	var perma = []; // Array of boolean values, is raindrop column for text
 	var finsh = []; // Array of boolean values, signal if raindrop is done permanently
 
-	var w = q.width  = window.innerWidth;
-	var h = q.height = window.innerHeight;
-	var ctx = q.getContext('2d');
+	var w = canvas.width  = window.innerWidth;
+	var h = canvas.height = window.innerHeight;
+	var ctx = canvas.getContext('2d');
 
 	// Modify canvas to be high DPI
 	// Lovingly adapted from http://stackoverflow.com/a/15666143/1313757
@@ -40,10 +41,10 @@ window.onload = setTimeout(function(){
 	          ctx.msBackingStorePixelRatio     || ctx.oBackingStorePixelRatio   ||
 	          ctx.backingStorePixelRatio       || 1;
 	var ratio = dpr / bsr;
-	q.width  = w * ratio;
-	q.height = h * ratio;
-	q.style.width  = w + "px";
-	q.style.height = h + "px";
+	canvas.width  = w * ratio;
+	canvas.height = h * ratio;
+	canvas.style.width  = w + 'px';
+	canvas.style.height = h + 'px';
 	ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
 	var glyph_w = (fsize * hspce); // Width  of one glyph
@@ -77,7 +78,7 @@ window.onload = setTimeout(function(){
 		ctx.shadowBlur = 0;
 	}
 
-	// Redraw the text characters
+	// Redraw the text characters (keep them permanent)
 	function draw_perma() {
 		ctx.font = font;
 		reset_shadow();
@@ -94,6 +95,44 @@ window.onload = setTimeout(function(){
 		});
 	}
 
+	function complete() {
+		// Add background image
+		var back = new Image();
+		back.src = 'images/twinkle_twinkle.png';
+		// Image courtesy of Subtle Patterns (https://www.toptal.com/designers/subtlepatterns)
+
+		back.onload = function () {
+			// Repeat image by creating a pattern
+			var pattern = ctx.createPattern(back, 'repeat');
+
+			// Fade in background image
+			var len  = 2; // Seconds for fade to take
+			var step = 1 / (len * 1000 / fade_speed);
+			var opacity = 0;
+			var fade_img = setInterval(function(){
+				opacity += step;
+
+				if (opacity < 1) {
+					ctx.globalAlpha = opacity;
+				}
+				else { // Done fading in background, set alpha to 1
+					clearInterval(fade_img);
+					ctx.globalAlpha = 1;
+				}
+
+				ctx.fillStyle = pattern;
+				ctx.fillRect(0, 0, w, h);
+
+				// Bottom right corner, tested with 'images/kitten.jpg'
+				// ctx.drawImage(back, w - back.naturalWidth, h - back.naturalHeight);
+
+				// Keep drawing permanent letters, always at alpha 1 (only fade image)
+				ctx.globalAlpha = 1;
+				draw_perma();
+			}, fade_speed);
+		}
+	}
+
 	function blacken() {
 		var step = (1 - opaque) / 15;
 		var opacity = opaque;
@@ -103,15 +142,18 @@ window.onload = setTimeout(function(){
 			draw_perma();
 
 			opacity += step;
-			if (opacity > 1) {
+			if (opacity >= 1) {
 				clearInterval(black);
 
+				// Final iteration (pure #000)
 				ctx.fillStyle = 'rgb(0, 0, 0)';
 				ctx.fillRect(0, 0, w, h);
 				draw_perma();
+
+				complete(); // Finished black
 			}
-		}, speed);
-		complete(); // Run synchronously with black()
+		}, fade_speed);
+		complete_page(); // Run synchronously with black()
 	}
 
 	function fade() {
@@ -122,11 +164,11 @@ window.onload = setTimeout(function(){
 			ctx.fillRect(0, 0, w, h);
 			draw_perma();
 
-			if (++i == 25) {
+			if (++i == 25) { // About the number it takes to make completely black
 				clearInterval(clean);
 				blacken();
 			}
-		}, speed);
+		}, fade_speed);
 	}
 
 	var rain = setInterval(function(){
@@ -156,7 +198,7 @@ window.onload = setTimeout(function(){
 						sum++;
 					}
 				});
-				// Signal to stop the raining once half the text has formed
+				// Signal to stop the raining if a third of the text has formed
 				if (sum >= Math.floor( text.length / 3 )) {
 					stop = true;
 				}
@@ -183,9 +225,9 @@ window.onload = setTimeout(function(){
 			}
 			else {
 				// Add random glowing glyphs
-				// (~5% chance)
-				if (Math.random() > 0.95) {
-					// Glowing white glyphs (white shadow)
+				// (~3% chance)
+				if (Math.random() > 0.97) {
+					// 1/3 glowing white glyphs (white shadow)
 					if (Math.random() > 0.67) {
 						ctx.shadowColor = '#FFF';
 						ctx.shadowOffsetX = 0;
@@ -193,8 +235,7 @@ window.onload = setTimeout(function(){
 						ctx.shadowBlur = 12;
 						ctx.fillStyle = brightest;
 					}
-
-					// More subtle, slightly brighter glyphs that glow for a moment
+					// 2/3 more subtle, slightly brighter glyphs that glow for a moment
 					else {
 						reset_shadow();
 						ctx.fillStyle = brighter;
@@ -217,8 +258,10 @@ window.onload = setTimeout(function(){
 					drops[i] = 0; // Reset raindrops at top of screen
 				}
 				else if (stop) {
+					// Reset raindrop forever if it is not a permanent letter column and
+					// it's past the bottom of the screen
 					if (!perma[i] && y > h) {
-						drops[i] = -glyph_h; // Reset raindrop forever
+						drops[i] = -glyph_h;
 						finsh[i] = true;
 					}
 					else if (y >= 0) {
