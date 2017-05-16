@@ -258,23 +258,24 @@ window.onload = setTimeout(function(){
 					y                         // y coord
 				);
 
-				// Reset if raindrop some distance past bottom of screen
-				if (y > h + Math.random() * h * 2 / 3) {
-					drops[i] = 0; // Reset raindrops at top of screen
-				}
-				else if (stop) {
+				// Check if signalled to stop raining
+				if (stop) {
 					// Reset raindrop forever if it is not a permanent letter column and
 					// it's past the bottom of the screen
 					if (!perma[i] && y > h) {
 						drops[i] = -glyph_h;
 						finsh[i] = true;
 					}
-					else if (y >= 0) {
+				}
+
+				if (!finsh[i]) {
+					// Reset if raindrop is some distance past bottom of screen
+					if (y > h + Math.random() * h * 2 / 3) {
+						drops[i] = 0; // Reset raindrops at top of screen
+					}
+					else {
 						drops[i] = y + glyph_h; // Advance down the screen
 					}
-				}
-				else {
-					drops[i] = y + glyph_h; // Advance down the screen
 				}
 			}
 		});
