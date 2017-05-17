@@ -293,16 +293,23 @@ function enter() {
 }
 
 window.onload = function () {
-	document.onkeydown = function (e) {
-		activate();
-	};
-	// User touched screen on mobile
-	window.addEventListener('touchstart', activate, false);
+	var wait = 2; // How long to wait (in seconds) before allowing activate().
+	              // This is waiting 2 seconds for the delay and duration of
+	              // the typing animation of #enter-text
+	setTimeout(function(){
 
-	function activate() {
-		// Disable the function now, if either event happens
-		document.onkeydown = null;
-		window.removeEventListener('touchstart', activate, false);
-		enter();
-	}
+		document.onkeydown = function (e) {
+			activate();
+		};
+		// User touched screen on mobile
+		window.addEventListener('touchstart', activate, false);
+
+		function activate() {
+			// Disable the function now, if either event happens
+			document.onkeydown = null;
+			window.removeEventListener('touchstart', activate, false);
+			enter();
+		}
+
+	}, wait * 1000);
 };
