@@ -1,31 +1,20 @@
-var text        = 'JACK COGDILL';
+function enter(text) {
+	var normal      = '#5CFF5C';
+	var brighter    = '#8F8';
+	var brightest   = '#AFA';
+	var opaque      = 0.045;
 
-var normal      = '#5CFF5C';
-var brighter    = '#8F8';
-var brightest   = '#AFA';
-var opaque      = 0.045;
+	var alpha       = '0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ';
+	var hspce       = 1.1; // Horizontal spacing between glyphs
+	var vspce       = 1.2; // Vertical spacing between glyphs
+	var fsize       = 14;  // Fontsize
+	var font_family = 'Anonymous Pro';
+	var font        = fsize + 'pt ' + font_family + ', monospace';
 
-var alpha       = '0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ';
-var hspce       = 1.1; // Horizontal spacing between glyphs
-var vspce       = 1.2; // Vertical spacing between glyphs
-var fsize       = 14;  // Fontsize
-var font_family = 'Anonymous Pro';
-var font        = fsize + 'pt ' + font_family + ', monospace';
+	var speed       = 30; // Speed of rain iterations in milliseconds (smaller = faster)
+	var fade_speed  = 34;
+	var stop        = false;
 
-var speed       = 30; // Speed of rain iterations in milliseconds (smaller = faster)
-var fade_speed  = 34;
-var stop        = false;
-var pause       = 500; // Wait this many milliseconds before starting rain
-
-function complete_page() {
-	info.style.zIndex = '2';
-	src.style.zIndex  = '2';
-
-	info.style.opacity   = '1';
-	src.style.opacity    = '1';
-}
-
-window.onload = setTimeout(function(){
 	var drops = []; // Array for raindrops
 	var perma = []; // Array of boolean values, is raindrop column for text
 	var finsh = []; // Array of boolean values, signal if raindrop is done permanently
@@ -36,10 +25,13 @@ window.onload = setTimeout(function(){
 
 	// Modify canvas to be high DPI
 	// Lovingly adapted from http://stackoverflow.com/a/15666143/1313757
-	var dpr = window.devicePixelRatio          || 1;
-	var bsr = ctx.webkitBackingStorePixelRatio || ctx.mozBackingStorePixelRatio ||
-	          ctx.msBackingStorePixelRatio     || ctx.oBackingStorePixelRatio   ||
-	          ctx.backingStorePixelRatio       || 1;
+	var dpr = window.devicePixelRatio || 1;
+	var bsr =    ctx.webkitBackingStorePixelRatio
+	          || ctx.mozBackingStorePixelRatio
+	          || ctx.msBackingStorePixelRatio
+	          || ctx.oBackingStorePixelRatio
+	          || ctx.backingStorePixelRatio
+	          || 1;
 	var ratio = dpr / bsr;
 	canvas.width  = w * ratio;
 	canvas.height = h * ratio;
@@ -134,7 +126,15 @@ window.onload = setTimeout(function(){
 				ctx.globalAlpha = 1;
 				draw_perma();
 			}, fade_speed);
-		}
+		};
+	}
+
+	function complete_page() {
+		info.style.zIndex = '2';
+		src.style.zIndex  = '2';
+
+		info.style.opacity = '1';
+		src.style.opacity  = '1';
 	}
 
 	function blacken() {
@@ -281,4 +281,17 @@ window.onload = setTimeout(function(){
 			}
 		});
 	}, speed);
-}, pause);
+}
+
+window.onload = function () {
+	document.onkeydown = function (e) {
+		var elem = document.getElementById('enter-text');
+		elem.outerHTML = ''; // Remove the element from the document
+
+		var text = 'JACK COGDILL';
+		enter(text);
+
+		// Disable the function now
+		document.onkeydown = null;
+	};
+};
