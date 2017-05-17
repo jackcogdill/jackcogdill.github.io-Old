@@ -1,4 +1,4 @@
-function enter(text) {
+function enter(text, background) {
 	var normal      = '#5CFF5C';
 	var brighter    = '#8F8';
 	var brightest   = '#AFA';
@@ -94,8 +94,7 @@ function enter(text) {
 	function complete() {
 		// Add background image
 		var back = new Image();
-		back.src = 'images/twinkle_twinkle.png';
-		// Image courtesy of Subtle Patterns (https://www.toptal.com/designers/subtlepatterns)
+		back.src = background;
 
 		back.onload = function () {
 			// Repeat image by creating a pattern
@@ -285,13 +284,15 @@ function enter(text) {
 
 window.onload = function () {
 	document.onkeydown = function (e) {
+		// Disable the function now
+		document.onkeydown = null;
+
 		var elem = document.getElementById('enter-text');
 		elem.outerHTML = ''; // Remove the element from the document
 
 		var text = 'JACK COGDILL';
-		enter(text);
-
-		// Disable the function now
-		document.onkeydown = null;
+		var background = 'images/twinkle_twinkle.png';
+		// Image courtesy of Subtle Patterns (https://www.toptal.com/designers/subtlepatterns)
+		enter(text, background);
 	};
 };
