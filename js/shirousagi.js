@@ -74,106 +74,6 @@ function enter(text, background) {
 		ctx.shadowBlur = 0;
 	}
 
-	// Redraw the text characters (keep them permanent)
-	function draw_perma() {
-		ctx.font = font;
-		reset_shadow();
-		ctx.fillStyle = normal;
-
-		drops.map(function(y, i){
-			if (perma[i]) {
-				ctx.fillText(
-					text.charAt(i - left),    // Glyph
-					unused / 2 + i * glyph_w, // x coord
-					y                         // y coord
-				);
-			}
-		});
-	}
-
-	function complete() {
-		// Add background image
-		var back = new Image();
-		back.src = background;
-
-		back.onload = function () {
-			// Repeat image by creating a pattern
-			var pattern = ctx.createPattern(back, 'repeat');
-
-			// Fade in background image
-			var len  = 2; // Seconds for fade to take
-			var step = 1 / (len * 1000 / fade_speed);
-			var opacity = 0;
-			var fade_img = setInterval(function(){
-				opacity += step;
-
-				if (opacity < 1) {
-					ctx.globalAlpha = opacity;
-				}
-				else { // Done fading in background, set alpha to 1
-					clearInterval(fade_img);
-					ctx.globalAlpha = 1;
-				}
-
-				ctx.fillStyle = pattern;
-				ctx.fillRect(0, 0, w, h);
-
-				// Bottom right corner, tested with 'images/kitten.jpg'
-				// ctx.drawImage(back, w - back.naturalWidth, h - back.naturalHeight);
-
-				// Keep drawing permanent letters, always at alpha 1 (only fade image)
-				ctx.globalAlpha = 1;
-				draw_perma();
-			}, fade_speed);
-		};
-	}
-
-	function complete_page() {
-		info.style.zIndex = '2';
-		src.style.zIndex  = '2';
-
-		info.style.opacity = '1';
-		src.style.opacity  = '1';
-	}
-
-	function blacken() {
-		var step = (1 - opaque) / 15;
-		var opacity = opaque;
-		var black = setInterval(function(){
-			ctx.fillStyle = 'rgba(0, 0, 0, '+ opacity +')';
-			ctx.fillRect(0, 0, w, h);
-			draw_perma();
-
-			opacity += step;
-			if (opacity >= 1) {
-				clearInterval(black);
-
-				// Final iteration (pure #000)
-				ctx.fillStyle = 'rgb(0, 0, 0)';
-				ctx.fillRect(0, 0, w, h);
-				draw_perma();
-
-				complete(); // Finished black
-			}
-		}, fade_speed);
-		complete_page(); // Run synchronously with black()
-	}
-
-	function fade() {
-		var i = 0;
-		var clean = setInterval(function(){
-			reset_shadow();
-			ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
-			ctx.fillRect(0, 0, w, h);
-			draw_perma();
-
-			if (++i == 25) { // About the number it takes to make completely black
-				clearInterval(clean);
-				blacken();
-			}
-		}, fade_speed);
-	}
-
 	var rain = setInterval(function(){
 		// Check all boolean values in array
 		if (finsh.every(function(v){
@@ -280,6 +180,106 @@ function enter(text, background) {
 			}
 		});
 	}, speed);
+
+	// Redraw the text characters (keep them permanent)
+	function draw_perma() {
+		ctx.font = font;
+		reset_shadow();
+		ctx.fillStyle = normal;
+
+		drops.map(function(y, i){
+			if (perma[i]) {
+				ctx.fillText(
+					text.charAt(i - left),    // Glyph
+					unused / 2 + i * glyph_w, // x coord
+					y                         // y coord
+				);
+			}
+		});
+	}
+
+	function fade() {
+		var i = 0;
+		var clean = setInterval(function(){
+			reset_shadow();
+			ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
+			ctx.fillRect(0, 0, w, h);
+			draw_perma();
+
+			if (++i == 25) { // About the number it takes to make completely black
+				clearInterval(clean);
+				blacken();
+			}
+		}, fade_speed);
+	}
+
+	function blacken() {
+		var step = (1 - opaque) / 15;
+		var opacity = opaque;
+		var black = setInterval(function(){
+			ctx.fillStyle = 'rgba(0, 0, 0, '+ opacity +')';
+			ctx.fillRect(0, 0, w, h);
+			draw_perma();
+
+			opacity += step;
+			if (opacity >= 1) {
+				clearInterval(black);
+
+				// Final iteration (pure #000)
+				ctx.fillStyle = 'rgb(0, 0, 0)';
+				ctx.fillRect(0, 0, w, h);
+				draw_perma();
+
+				complete(); // Finished black
+			}
+		}, fade_speed);
+		complete_page(); // Run synchronously with black()
+	}
+
+	function complete_page() {
+		info.style.zIndex = '2';
+		src.style.zIndex  = '2';
+
+		info.style.opacity = '1';
+		src.style.opacity  = '1';
+	}
+
+	function complete() {
+		// Add background image
+		var back = new Image();
+		back.src = background;
+
+		back.onload = function () {
+			// Repeat image by creating a pattern
+			var pattern = ctx.createPattern(back, 'repeat');
+
+			// Fade in background image
+			var len  = 2; // Seconds for fade to take
+			var step = 1 / (len * 1000 / fade_speed);
+			var opacity = 0;
+			var fade_img = setInterval(function(){
+				opacity += step;
+
+				if (opacity < 1) {
+					ctx.globalAlpha = opacity;
+				}
+				else { // Done fading in background, set alpha to 1
+					clearInterval(fade_img);
+					ctx.globalAlpha = 1;
+				}
+
+				ctx.fillStyle = pattern;
+				ctx.fillRect(0, 0, w, h);
+
+				// Bottom right corner, tested with 'images/kitten.jpg'
+				// ctx.drawImage(back, w - back.naturalWidth, h - back.naturalHeight);
+
+				// Keep drawing permanent letters, always at alpha 1 (only fade image)
+				ctx.globalAlpha = 1;
+				draw_perma();
+			}, fade_speed);
+		};
+	}
 }
 
 window.onload = function () {
