@@ -1,4 +1,4 @@
-function enter(text, background) {
+function rain(text, background) {
 	var normal      = '#5CFF5C';
 	var brighter    = '#8F8';
 	var brightest   = '#AFA';
@@ -74,12 +74,12 @@ function enter(text, background) {
 		ctx.shadowBlur = 0;
 	}
 
-	var rain = setInterval(function(){
+	var fall = setInterval(function(){
 		// Check all boolean values in array
 		if (finsh.every(function(v){
 				return v;
 		})) {
-			clearInterval(rain);
+			clearInterval(fall);
 			fade();
 		}
 
@@ -282,17 +282,27 @@ function enter(text, background) {
 	}
 }
 
+function enter() {
+	var elem = document.getElementById('enter-text');
+	elem.outerHTML = ''; // Remove the element from the document
+
+	var text = 'JACK COGDILL';
+	var background = 'images/twinkle_twinkle.png';
+	// Image courtesy of Subtle Patterns (https://www.toptal.com/designers/subtlepatterns)
+	rain(text, background);
+}
+
 window.onload = function () {
 	document.onkeydown = function (e) {
-		// Disable the function now
-		document.onkeydown = null;
-
-		var elem = document.getElementById('enter-text');
-		elem.outerHTML = ''; // Remove the element from the document
-
-		var text = 'JACK COGDILL';
-		var background = 'images/twinkle_twinkle.png';
-		// Image courtesy of Subtle Patterns (https://www.toptal.com/designers/subtlepatterns)
-		enter(text, background);
+		activate();
 	};
+	// User touched screen on mobile
+	window.addEventListener('touchstart', activate, false);
+
+	function activate() {
+		// Disable the function now, if either event happens
+		document.onkeydown = null;
+		window.removeEventListener('touchstart', activate, false);
+		enter();
+	}
 };
