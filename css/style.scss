@@ -121,6 +121,7 @@ $et_fsize: $fsize * 1.5;
 
 // SVG hover border size
 $svgb_size: 1px;
+$svgb_radius: 0.3em; // Border radius
 // SVG hover border color
 $shc_color: $soft_blue;
 $arrow_bg: #000;
@@ -215,11 +216,13 @@ div.arrow:before {
 		> div {
 			> a {
 				width:  $svg_cntr;
-				height: $svg_cntr;
+				min-height: $svg_cntr;
 				display: inline-block;
 				border: $svgb_size solid $soft_3;
-				@include border-radius(0.3em);
+				@include border-radius($svgb_radius);
 				@include svg_hover_transition(border-color);
+
+				text-decoration: none;
 
 				> svg {
 					display: block;
@@ -232,12 +235,28 @@ div.arrow:before {
 					@include svg_hover_transition(fill);
 				}
 
-				+ div.arrow-wrap {
-					margin-top: 0.5em;
+				> div.arrow-wrap {
+					position: relative;
+					margin-top: 1em;
 
 					max-height: 0;
 					overflow-y: hidden;
 					@include transition(max-height 0.15s ease);
+				}
+
+				> div.arrow-wrap > div.arrow {
+					padding: 0.3em 0;
+					border-bottom-left-radius: $svgb_radius;
+					border-bottom-right-radius: $svgb_radius;
+					background-color: $arrow_bg;
+					color: $arrow_text_color;
+
+					text-align: center;
+					font-family: $font;
+
+					border-left-color: transparent;
+					border-right-color: transparent;
+					border-bottom-color: transparent;
 				}
 			}
 
@@ -248,19 +267,10 @@ div.arrow:before {
 					fill: #FFF;
 				}
 
-				+ div.arrow-wrap {
+				> div.arrow-wrap {
 					max-height: 100%;
-					@include transition(max-height 0.8s ease-in-out $sht_dur);
+					@include transition(max-height 0.8s ease-in-out);
 				}
-			}
-
-			> div.arrow-wrap > div.arrow {
-				padding: 0.3em 0;
-				@include border-radius(1px);
-				text-align: center;
-				background-color: $arrow_bg;
-				color: $arrow_text_color;
-				font-family: $font;
 			}
 		}
 	}
