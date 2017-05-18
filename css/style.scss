@@ -5,15 +5,25 @@
 $font: "Anonymous Pro", monospace;
 $fsize: 18px;
 
-$soft:     #2A742A;
-$soft_2:   #63B963;
-$soft_3:   #254625;
-$soft_4:   #0E1C0E;
-$bright:   #43B943;
-$bright_2: #5CFF5C; // normal from /js/shirousagi.js
-$high:     #8F8;
+// Greens
+// ============
+$soft:      #2A742A;
+$soft_2:    #63B963;
+$soft_3:    #254625;
+$soft_4:    #0E1C0E;
 
 $soft_rgba: rgba(42, 116, 42, 0.75);
+
+$bright:    #43B943;
+$bright_2:  #5CFF5C; // normal from /js/shirousagi.js
+$high:      #8F8;
+
+// Blues
+// ============
+$soft_blue:     #2A2A74;
+$bright_blue:   #4343B9;
+$bright_blue_2: #5C5CFF;
+
 
 html, body {
 	margin: 0;
@@ -109,35 +119,54 @@ $et_fsize: $fsize * 1.5;
 	z-index: 1;
 }
 
-$tsize: $fsize / 2;
+// SVG hover border size
+$svgb_size: 1px;
+// SVG hover border color
+$shc_color: $soft_blue;
+$arrow_bg: #000;
+$arrow_text_color: #FFF;
 
-.arrow-up {
+// Triangle size
+$tsize: $fsize / 2;
+$tborder_size: $svgb_size;
+$toffset: round($tborder_size * 1.41421);
+$tsize_outer: $tsize + $toffset;
+
+div.arrow {
 	display: block;
-	opacity: 0;
 	position: relative;
-	left: 0;
-	right: 0;
-	margin: 0 auto;
-	top: $fsize - 1px;
-	width: 0;
-	height: 0;
-	z-index: 2;
-	border-left:   $tsize solid transparent;
-	border-right:  $tsize solid transparent;
-	border-bottom: $tsize solid $soft;
+	padding: 0.3em 0;
+
+	border: $tborder_size solid $shc_color;
+	@include border-radius(1px);
+
+	text-align: center;
+	background-color: $arrow_bg;
+	color: $arrow_text_color;
+	font-family: $font;
 }
 
-.arrow-up:before {
-	content: "";
+div.arrow:before, div.arrow:after {
+	content: '';
 	display: block;
-	position: relative;
-	left: 1 - ($fsize / 2);
-	top: 1px;
-	width: 0;
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
 	height: 0;
-	border-left:   ($tsize - 1) solid transparent;
-	border-right:  ($tsize - 1) solid transparent;
-	border-bottom: ($tsize - 1) solid #000;
+	width: 0;
+	border: solid transparent;
+}
+
+div.arrow:after {
+	border-bottom-color: $arrow_bg;
+	border-width: $tsize;
+	margin-left: -$tsize;
+}
+
+div.arrow:before {
+	border-bottom-color: $shc_color;
+	border-width: $tsize_outer;
+	margin-left: -$tsize_outer;
 }
 
 #info {
@@ -174,9 +203,13 @@ $tsize: $fsize / 2;
 		}
 	}
 
-	$svg: 64px;
+	$svg: 4em;
 	$svg_cntr: $svg * 3 / 2;
 	$svg_marg: $svg / 2;
+
+	@mixin svg_hover_transition($option) {
+		@include transition($option 0.4s ease);
+	}
 
 	> div#svg-container {
 		width: 80%;
@@ -190,9 +223,8 @@ $tsize: $fsize / 2;
 				width:  $svg_cntr;
 				height: $svg_cntr;
 				display: inline-block;
-				border: 1px solid $soft_3;
-				@include border-radius(4px);
-				@include transition(border-color 0.33s ease);
+				border: $svgb_size solid $soft_3;
+				@include border-radius(0.3em);
 
 				> svg {
 					display: block;
@@ -203,39 +235,23 @@ $tsize: $fsize / 2;
 						linear, left top, left bottom, from($soft), to($soft_rgba)
 					);
 				}
+
+				+ div.arrow {
+					opacity: 0;
+					margin-top: 1em;
+				}
 			}
 
 			> a:hover {
-				border-color: $soft;
+				border-color: $shc_color;
 
 				> svg {
-					fill: $high;
+					fill: #FFF;
 				}
 
-				+ span + div {
+				+ div.arrow {
 					opacity: 1;
 				}
-
-				+ span {
-					opacity: 1;
-				}
-			}
-
-			> div {
-				display: block;
-				opacity: 0;
-				text-align: center;
-				padding: 4px 0;
-				margin: 1em 0 0 0;
-				border: 1px solid $soft_3;
-				@include border-radius(1px);
-
-				color: $bright;
-				font-family: $font;
-			}
-
-			> div, > span {
-				@include transition(opacity 0.2s ease-out);
 			}
 		}
 	}
