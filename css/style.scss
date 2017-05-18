@@ -135,15 +135,8 @@ $tsize_outer: $tsize + $toffset;
 div.arrow {
 	display: block;
 	position: relative;
-	padding: 0.3em 0;
-
+	margin-top: $tsize_outer;
 	border: $tborder_size solid $shc_color;
-	@include border-radius(1px);
-
-	text-align: center;
-	background-color: $arrow_bg;
-	color: $arrow_text_color;
-	font-family: $font;
 }
 
 div.arrow:before, div.arrow:after {
@@ -207,8 +200,9 @@ div.arrow:before {
 	$svg_cntr: $svg * 3 / 2;
 	$svg_marg: $svg / 2;
 
+	$sht_dur: 0.4s; // Duration
 	@mixin svg_hover_transition($option) {
-		@include transition($option 0.4s ease);
+		@include transition($option $sht_dur ease);
 	}
 
 	> div#svg-container {
@@ -225,6 +219,7 @@ div.arrow:before {
 				display: inline-block;
 				border: $svgb_size solid $soft_3;
 				@include border-radius(0.3em);
+				@include svg_hover_transition(border-color);
 
 				> svg {
 					display: block;
@@ -234,11 +229,15 @@ div.arrow:before {
 					-webkit-mask-image: -webkit-gradient(
 						linear, left top, left bottom, from($soft), to($soft_rgba)
 					);
+					@include svg_hover_transition(fill);
 				}
 
-				+ div.arrow {
-					opacity: 0;
-					margin-top: 1em;
+				+ div.arrow-wrap {
+					margin-top: 0.5em;
+
+					max-height: 0;
+					overflow-y: hidden;
+					@include transition(max-height 0.15s ease);
 				}
 			}
 
@@ -249,9 +248,19 @@ div.arrow:before {
 					fill: #FFF;
 				}
 
-				+ div.arrow {
-					opacity: 1;
+				+ div.arrow-wrap {
+					max-height: 100%;
+					@include transition(max-height 0.8s ease-in-out $sht_dur);
 				}
+			}
+
+			> div.arrow-wrap > div.arrow {
+				padding: 0.3em 0;
+				@include border-radius(1px);
+				text-align: center;
+				background-color: $arrow_bg;
+				color: $arrow_text_color;
+				font-family: $font;
 			}
 		}
 	}
