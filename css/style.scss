@@ -47,8 +47,9 @@ a {
 
 
 // Enter text vars
-$text_len: 24;
-$final_w: ($text_len / 2 + 1) + 0em; // This is in em
+$enter_str: 'press any key to enter'; // Copy the string from index.html here
+$text_len: str-length($enter_str) + 1;
+$final_w: $text_len / 2 + 0.5em; // This is in em
 $et_fsize: $fsize * 1.5;
 
 .enter-text-wrap {
@@ -78,7 +79,8 @@ $et_fsize: $fsize * 1.5;
 	$type_delay: 1s;
 	$type_dur: 1s; // Duration
 	$cursor_dur: 0.5s;
-	$cursor_iter: ($type_delay + $type_dur) / $cursor_dur;
+	// $cursor_iter: ($type_delay + $type_dur) / $cursor_dur;
+	$cursor_iter: infinite;
 
 	animation: type $type_delay steps($steps) $type_dur 1 normal both,
 		blink_cursor $cursor_dur steps(50) $cursor_iter alternate;
