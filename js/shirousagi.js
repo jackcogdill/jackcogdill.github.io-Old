@@ -231,6 +231,23 @@ function rain(text, callback) {
 	}
 
 	function fade() {
+		var i = 0;
+		var clean = setInterval(function(){
+			reset_shadow();
+			ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
+			ctx.fillRect(0, 0, w, h);
+			draw_perma();
+
+			// 25 is about the number it takes to go completely black
+			// Extra to stall so user can read text
+			if (++i == 40) {
+				clearInterval(clean);
+				remove_perma();
+			}
+		}, fade_speed);
+	}
+
+	function remove_perma() {
 		function getAllIndexes(arr, val) {
 			var indices = [];
 			var i = -1;
@@ -328,7 +345,7 @@ function enter() {
 	var elem = document.getElementById('enter-text');
 	elem.outerHTML = ''; // Remove the element from the document
 
-	var text = 'JACK COGDILL';
+	var text = 'JACK COGDILL // WELCOME';
 	rain(text, complete_page);
 }
 

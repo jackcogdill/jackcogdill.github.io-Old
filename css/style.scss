@@ -84,9 +84,9 @@ a {
 
 
 // Enter text vars
-$enter_str: 'press any key to enter'; // Copy the string from index.html here
+$enter_str: 'press any key or tap to enter'; // Copy the string from index.html here
 $text_len: str-length($enter_str) + 1;
-$final_w: $text_len / 2 + 0.5em; // This is in em
+$final_w: $text_len / 2 + if($text_len % 2 == 0, 0.75em, 0.5em); // This is in em
 $et_fsize: $fsize * 1.3;
 
 .enter-text-wrap {
