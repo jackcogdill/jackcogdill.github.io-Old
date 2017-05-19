@@ -287,7 +287,7 @@ function enter() {
 	elem.outerHTML = ''; // Remove the element from the document
 
 	var text = 'JACK COGDILL';
-	var background = 'images/twinkle_twinkle.png';
+	var background = 'images/dark_dotted2.png';
 	// Image courtesy of Subtle Patterns (https://www.toptal.com/designers/subtlepatterns)
 	rain(text, background);
 }

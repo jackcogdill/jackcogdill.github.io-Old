@@ -40,8 +40,14 @@ html, body {
 }
 
 a {
-	@include transition(color 0.33s ease);
-	text-decoration: underline;
+	font-family: $font;
+	text-decoration: none;
+	color: #FFF;
+	@include transition(color 0.4s ease);
+
+	&:hover {
+		color: $light_blue;
+	}
 }
 
 ::selection {
@@ -142,38 +148,38 @@ $toffset: round($tborder_size * 1.41421);
 $toffset: ($toffset / 16px) + 0em; // Convert from px to em
 $tsize_outer: $tsize + $toffset;
 
-div.arrow {
+.arrow {
 	display: block;
 	position: relative;
 	margin-top: $tsize_outer;
 	border: $tborder_size solid $arb_color;
-}
 
-// div.arrow:before, div.arrow:after {
-div.arrow:after {
-	content: '';
-	display: block;
-	position: absolute;
-	bottom: 100%;
-	left: 50%;
-	height: 0;
-	width: 0;
-	border: solid transparent;
-}
+	// &::before, &::after {
+	&::after {
+		content: '';
+		display: block;
+		position: absolute;
+		bottom: 100%;
+		left: 50%;
+		height: 0;
+		width: 0;
+		border: solid transparent;
+	}
 
-div.arrow:after {
-	border-bottom-color: $arrow_bg;
-	border-width: $tsize;
-	margin-left: -$tsize;
-}
+	&::after {
+		border-bottom-color: $arrow_bg;
+		border-width: $tsize;
+		margin-left: -$tsize;
+	}
 
-// For border on triangle
-// ========================
-// div.arrow:before {
-// 	border-bottom-color: #FFF;
-// 	border-width: $tsize_outer;
-// 	margin-left: -$tsize_outer;
-// }
+	// For border on triangle
+	// ========================
+	// &::before {
+	// 	border-bottom-color: #FFF;
+	// 	border-width: $tsize_outer;
+	// 	margin-left: -$tsize_outer;
+	// }
+}
 
 #info {
 	$w: 35%;
@@ -189,24 +195,16 @@ div.arrow:after {
 		display: block;
 		height: 1px;
 		border: 0;
-		border-top: 1px solid $soft_4;
+		border-top: 1px solid $soft_3;
 		margin: 2em 0;
 		padding: 0;
 	}
 
-	> div.info-text {
+	> .info-text {
 		color: $soft_2;
 		font-size: $fsize * 5 / 6;
 		font-family: $font;
 		text-align: center;
-
-		> a {
-			color: $soft_2;
-		}
-
-		> a:hover {
-			color: $high;
-		}
 	}
 
 	$svg: 4em;
@@ -218,7 +216,7 @@ div.arrow:after {
 		@include transition($option $sht_dur ease);
 	}
 
-	> div#svg-container {
+	> #svg-container {
 		width: 80%;
 		min-width: $svg_cntr * 3 + $svg_marg * 2;
 		margin: 5% auto;
@@ -247,7 +245,7 @@ div.arrow:after {
 					@include svg_hover_transition(fill);
 				}
 
-				> div.arrow-wrap {
+				> .arrow-wrap {
 					position: relative;
 					margin-top: $svg_marg / 3;
 
@@ -256,7 +254,7 @@ div.arrow:after {
 					@include transition(max-height 0.2s ease);
 				}
 
-				> div.arrow-wrap > div.arrow {
+				> .arrow-wrap > .arrow {
 					z-index: -1;
 					border-bottom-left-radius: $svgb_radius / 2;
 					border-bottom-right-radius: $svgb_radius / 2;
@@ -274,7 +272,7 @@ div.arrow:after {
 				}
 
 				// Slide up the arrow when hover, slide down by default
-				> div.arrow-wrap > div.arrow:after {
+				> .arrow-wrap > .arrow::after {
 					margin-bottom: -$tsize + $toffset * 2;
 					@include transition(margin-bottom 0.2s ease);
 				}
@@ -287,11 +285,11 @@ div.arrow:after {
 					fill: #FFF;
 				}
 
-				> div.arrow-wrap {
+				> .arrow-wrap {
 					max-height: 100%;
 					@include transition(max-height 0.8s ease-in-out);
 
-					> div.arrow:after {
+					> .arrow::after {
 						margin-bottom: 0;
 						@include transition(margin-bottom $sht_dur ease-in);
 					}
@@ -312,13 +310,7 @@ div.arrow:after {
 	bottom: $fsize * 1.5;
 
 	> a {
-		color: $soft_3;
 		font-size: $fsize * 2 / 3;
-		font-family: $font;
-	}
-
-	> a:hover {
-		color: $soft_2;
 	}
 }
 
