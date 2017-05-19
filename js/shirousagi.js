@@ -312,6 +312,10 @@ function rain(text, callback) {
 
 function complete_page() {
 	canvas.style.opacity = '0';
+	setTimeout(function(){
+		canvas.style.zIndex = '-1';
+		canvas.outerHTML = ''; // Remove the element from the document
+	}, 700);
 
 	info.style.zIndex = '2';
 	src.style.zIndex  = '2';

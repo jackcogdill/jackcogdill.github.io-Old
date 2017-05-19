@@ -79,6 +79,7 @@ a {
 	position: absolute;
 	bottom: 50%;
 	width: 100%;
+	z-index: 2;
 }
 
 
@@ -106,7 +107,7 @@ $et_fsize: $fsize * 1.3;
 	border-right: 2px solid transparent;
 
 	text-align: center;
-	color: $bright_2;
+	color: $bright;
 
 	// Animation vars
 	$steps: $text_len - 1;
@@ -138,7 +139,7 @@ $et_fsize: $fsize * 1.3;
 }
 
 #canvas {
-	margin: 0 auto;
+	position: absolute;
 	display: block;
 	z-index: 1;
 
@@ -206,21 +207,11 @@ $tsize_outer: $tsize + $toffset;
 #info {
 	$w: 35%;
 	width: $w;
-	height: 15%;
-	position: absolute;
-	top: 35%;
-	left: 50% - ($w / 2);
+	$h: 50%;
+	height: $h;
+	margin: ($h / 4) auto 0;
 	z-index: -1;
 	opacity: 0;
-
-	> hr {
-		display: block;
-		height: 1px;
-		border: 0;
-		border-top: 1px solid $soft_3;
-		margin: 2em 0;
-		padding: 0;
-	}
 
 	> .info-text {
 		color: $bright_2;
@@ -276,7 +267,7 @@ $tsize_outer: $tsize + $toffset;
 				}
 
 				> .arrow-wrap > .arrow {
-					z-index: -1;
+					z-index: 1;
 					border-bottom-left-radius: $svgb_radius / 2;
 					border-bottom-right-radius: $svgb_radius / 2;
 					padding: 0.3em 0;
@@ -326,7 +317,6 @@ $tsize_outer: $tsize + $toffset;
 	display: block;
 	width: 100%;
 	text-align: center;
-	position: absolute;
 	bottom: $fsize * 1.5;
 
 	> a {
