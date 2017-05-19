@@ -9,7 +9,7 @@ function ease(ifun, callback, max=100, init=100, mind=16.67, ex=Math.E, div=30) 
 
 		// exial time function: get faster (delay -> 0)
 		delay = -Math.pow(incr / div, ex) + init;
-		console.log(delay);
+
 		if (delay < mind) {
 			delay = mind;
 		}
@@ -64,9 +64,9 @@ function rain(text, callback) {
 	window.fade_speed = 34;
 	var stop          = false;
 
-	window.drops    = []; // Array for raindrops
+	window.drops = []; // Array for raindrops
 	window.perma = []; // Array of boolean values, is raindrop column for text
-	window.finsh    = []; // Array of boolean values, signal if raindrop is done permanently
+	window.finsh = []; // Array of boolean values, signal if raindrop is done permanently
 
 	var glyph_w = (fsize * hspce); // Width  of one glyph
 	var glyph_h = (fsize * vspce); // Height of one glyph
@@ -286,9 +286,6 @@ function rain(text, callback) {
 			blacken,
 			40, // Max increment
 			id=30 // Initial delay
-			// Minimum delay
-			// Exponent
-			// Divisor
 		);
 	}
 
