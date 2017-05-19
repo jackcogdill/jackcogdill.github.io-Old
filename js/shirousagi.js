@@ -1,27 +1,34 @@
-function rain(text, background) {
-	var normal      = '#5CFF5C';
-	var brighter    = '#8F8';
-	var brightest   = '#AFA';
-	var opaque      = 0.045;
+// Inner function(incr), callback function, max increment,
+// initial delay, minimum delay, exponent, divisor
+function ease(ifun, callback, max=100, init=100, mind=16.67, ex=Math.E, div=30) {
+	var incr  = 0;
+	var delay = init;
 
-	var alpha       = '0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ';
-	var hspce       = 1.1; // Horizontal spacing between glyphs
-	var vspce       = 1.2; // Vertical spacing between glyphs
-	var fsize       = 14;  // Fontsize
-	var font_family = 'Anonymous Pro';
-	var font        = fsize + 'pt ' + font_family + ', monospace';
+	var wait = function() {
+		ifun(incr);
 
-	var speed       = 30; // Speed of rain iterations in milliseconds (smaller = faster)
-	var fade_speed  = 34;
-	var stop        = false;
+		// exial time function: get faster (delay -> 0)
+		delay = -Math.pow(incr / div, ex) + init;
+		console.log(delay);
+		if (delay < mind) {
+			delay = mind;
+		}
+		incr++;
 
-	var drops = []; // Array for raindrops
-	var perma = []; // Array of boolean values, is raindrop column for text
-	var finsh = []; // Array of boolean values, signal if raindrop is done permanently
+		if (incr <= max) {
+			timeout = setTimeout(wait, delay);
+		}
+		else {
+			callback();
+		}
+	}
+	var timeout = setTimeout(wait, delay);
+}
 
-	var w = canvas.width  = window.innerWidth;
-	var h = canvas.height = window.innerHeight;
-	var ctx = canvas.getContext('2d');
+function setup_canvas() {
+	window.w = canvas.width  = window.innerWidth;
+	window.h = canvas.height = window.innerHeight;
+	window.ctx = canvas.getContext('2d');
 
 	// Modify canvas to be high DPI
 	// Lovingly adapted from http://stackoverflow.com/a/15666143/1313757
@@ -38,16 +45,39 @@ function rain(text, background) {
 	canvas.style.width  = w + 'px';
 	canvas.style.height = h + 'px';
 	ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+}
+
+function rain(text, callback) {
+	var normal      = '#5CFF5C';
+	var brighter    = '#8F8';
+	var brightest   = '#AFA';
+	var opaque      = 0.045;
+
+	var alpha       = '0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ';
+	var hspce       = 1.1; // Horizontal spacing between glyphs
+	var vspce       = 1.2; // Vertical spacing between glyphs
+	var fsize       = 14;  // Fontsize
+	var font_family = 'Anonymous Pro';
+	var font        = fsize + 'pt ' + font_family + ', monospace';
+
+	var speed         = 30; // Speed of rain iterations in milliseconds (smaller = faster)
+	window.fade_speed = 34;
+	var stop          = false;
+
+	window.drops    = []; // Array for raindrops
+	window.perma = []; // Array of boolean values, is raindrop column for text
+	window.finsh    = []; // Array of boolean values, signal if raindrop is done permanently
 
 	var glyph_w = (fsize * hspce); // Width  of one glyph
 	var glyph_h = (fsize * vspce); // Height of one glyph
-	var total_drops = Math.floor( w / (fsize * hspce) ); // Total number of raindrops
+	var total_drops = Math.floor( w / glyph_w ); // Total number of raindrops
 
 	// Both 'total_drops' and 'text.length' must be either even or odd to easily center
 	if ( (total_drops + text.length) % 2 == 1 ) {
 		total_drops--;
 	}
-	var unused = w - total_drops * glyph_w; // Unused (horizontal) canvas space
+	var unused = w - (total_drops * glyph_w); // Unused (horizontal) canvas space
+	unused += fsize * (hspce - 1);
 	// Using this to center the text on the screen
 
 	var hmiddle = Math.floor( total_drops / 2 ); // Horizontal middle of the screen (in glyphs)
@@ -55,8 +85,10 @@ function rain(text, background) {
 	var left    = hmiddle - half_t;                 // Raindrop column index to start text
 	var right   = hmiddle + (text.length - half_t); // Raindrop column index to end   text
 
-	var vspot = Math.floor( h / glyph_h / 3 ); // Vertical location on screen for text (in glyphs)
-	                                           // Putting at 1/3 of the screen's height
+	var vspot = Math.floor( h / glyph_h / 2);
+	// Vertical location on screen for text (in glyphs)
+	// Putting at 50% of the screen's height
+
 	vspot *= glyph_h; // Put in y coords
 
 	for (var i = 0; i < total_drops; i++) {
@@ -182,10 +214,10 @@ function rain(text, background) {
 	}, speed);
 
 	// Redraw the text characters (keep them permanent)
-	function draw_perma() {
+	function draw_perma(fill=normal) {
 		ctx.font = font;
 		reset_shadow();
-		ctx.fillStyle = normal;
+		ctx.fillStyle = fill;
 
 		drops.map(function(y, i){
 			if (perma[i]) {
@@ -199,18 +231,65 @@ function rain(text, background) {
 	}
 
 	function fade() {
-		var i = 0;
-		var clean = setInterval(function(){
-			reset_shadow();
-			ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
-			ctx.fillRect(0, 0, w, h);
-			draw_perma();
-
-			if (++i == 25) { // About the number it takes to make completely black
-				clearInterval(clean);
-				blacken();
+		function getAllIndexes(arr, val) {
+			var indices = [];
+			var i = -1;
+			while ( (i = arr.indexOf(val, i + 1)) != -1 ){
+				indices.push(i);
 			}
-		}, fade_speed);
+			return indices;
+		}
+
+		function setCharAt(str, index, chr) {
+			if (index > str.length - 1) return str;
+			return str.substr(0,index) + chr + str.substr(index + 1);
+		}
+
+		var alpha_real = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+		ease(
+			// Inner function(incr)
+			function(i){
+				var truths = getAllIndexes(perma, true);
+
+				var low  = 1;
+				var high = truths.length / 2;
+				for (
+					var j = 0;
+					j < Math.floor(low + Math.random() * (high - low));
+					j++
+				) {
+					var r = Math.floor(Math.random() * truths.length);
+					drops[ truths[r] ] += glyph_h;
+					text = setCharAt(
+						text,
+						truths[r] - left,
+						alpha_real.charAt( Math.floor(Math.random() * alpha_real.length) )
+					);
+				}
+
+				var r = Math.floor(Math.random() * truths.length);
+				if (Math.random() > 0.67) { // 33% chance
+					perma[ truths[r] ] = false;
+				}
+
+				ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+				ctx.fillRect(0, 0, w, h);
+
+				var fill = normal;
+				if (Math.random() > 0.67) { // 33% chance
+					fill = '#000';
+				}
+				draw_perma(fill);
+			},
+			// Callback function
+			blacken,
+			40, // Max increment
+			id=30 // Initial delay
+			// Minimum delay
+			// Exponent
+			// Divisor
+		);
 	}
 
 	function blacken() {
@@ -219,67 +298,29 @@ function rain(text, background) {
 		var black = setInterval(function(){
 			ctx.fillStyle = 'rgba(0, 0, 0, '+ opacity +')';
 			ctx.fillRect(0, 0, w, h);
-			draw_perma();
 
 			opacity += step;
 			if (opacity >= 1) {
 				clearInterval(black);
 
-				// Final iteration (pure #000)
-				ctx.fillStyle = 'rgb(0, 0, 0)';
+				// Final iteration (pure black)
+				ctx.fillStyle = '#000';
 				ctx.fillRect(0, 0, w, h);
-				draw_perma();
 
-				complete(); // Finished black
+				callback(); // Done with black()
 			}
 		}, fade_speed);
-		complete_page(); // Run synchronously with black()
 	}
+}
 
-	function complete_page() {
-		info.style.zIndex = '2';
-		src.style.zIndex  = '2';
+function complete_page() {
+	canvas.style.opacity = '0';
 
-		info.style.opacity = '1';
-		src.style.opacity  = '1';
-	}
+	info.style.zIndex = '2';
+	src.style.zIndex  = '2';
 
-	function complete() {
-		// Add background image
-		var back = new Image();
-		back.src = background;
-
-		back.onload = function () {
-			// Repeat image by creating a pattern
-			var pattern = ctx.createPattern(back, 'repeat');
-
-			// Fade in background image
-			var len  = 2; // Seconds for fade to take
-			var step = 1 / (len * 1000 / fade_speed);
-			var opacity = 0;
-			var fade_img = setInterval(function(){
-				opacity += step;
-
-				if (opacity < 1) {
-					ctx.globalAlpha = opacity;
-				}
-				else { // Done fading in background, set alpha to 1
-					clearInterval(fade_img);
-					ctx.globalAlpha = 1;
-				}
-
-				ctx.fillStyle = pattern;
-				ctx.fillRect(0, 0, w, h);
-
-				// Bottom right corner, tested with 'images/kitten.jpg'
-				// ctx.drawImage(back, w - back.naturalWidth, h - back.naturalHeight);
-
-				// Keep drawing permanent letters, always at alpha 1 (only fade image)
-				ctx.globalAlpha = 1;
-				draw_perma();
-			}, fade_speed);
-		};
-	}
+	info.style.opacity = '1';
+	src.style.opacity  = '1';
 }
 
 function enter() {
@@ -287,12 +328,12 @@ function enter() {
 	elem.outerHTML = ''; // Remove the element from the document
 
 	var text = 'JACK COGDILL';
-	var background = 'images/dark_dotted2.png';
-	// Image courtesy of Subtle Patterns (https://www.toptal.com/designers/subtlepatterns)
-	rain(text, background);
+	rain(text, complete_page);
 }
 
 window.onload = function () {
+	setup_canvas();
+
 	var wait = 2; // How long to wait (in seconds) before allowing activate().
 	              // This is waiting 2 seconds for the delay and duration of
 	              // the typing animation of #enter-text
