@@ -49,8 +49,10 @@ function setup_canvas() {
 
 function rain(text, callback) {
 	var normal      = '#5CFF5C';
+	var bright      = '#43B943';
 	var brighter    = '#8F8';
 	var brightest   = '#AFA';
+
 	var opaque      = 0.045;
 
 	var alpha       = '0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ';
@@ -112,7 +114,7 @@ function rain(text, callback) {
 				return v;
 		})) {
 			clearInterval(fall);
-			fade();
+			fade(); // Function to execute when finished
 		}
 
 		reset_shadow();
@@ -239,10 +241,11 @@ function rain(text, callback) {
 			draw_perma();
 
 			// 25 is about the number it takes to go completely black
-			// Extra to stall so user can read text
-			if (++i == 40) {
+			if (++i == 25) {
 				clearInterval(clean);
-				remove_perma();
+
+				// Extra to stall so user can read text
+				blacken(20, draw_perma, remove_perma);
 			}
 		}, fade_speed);
 	}
@@ -263,7 +266,14 @@ function rain(text, callback) {
 		}
 
 		var alpha_real = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+		var blend = [
+			'5CFF5C', '5AF95A', '57F257', '55EC55', '53E653', '51DF51',
+			'4ED94E', '4CD24C', '4ACC4A', '48C648', '45BF45', '43B943'
+		];
+		// Blended normal -> bright
+		// Courtesy of: http://meyerweb.com/eric/tools/color-blend/#5CFF5C:43B943:10:hex
 
+		var max = 40;
 		ease(
 			// Inner function(incr)
 			function(i){
@@ -286,32 +296,41 @@ function rain(text, callback) {
 				}
 
 				var r = Math.floor(Math.random() * truths.length);
-				if (Math.random() > 0.67) { // 33% chance
+				// 33% chance, only if 1/3 of animation done
+				if (i > max / 3 && Math.random() > 0.67) {
 					perma[ truths[r] ] = false;
 				}
 
-				ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+				ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
 				ctx.fillRect(0, 0, w, h);
 
-				var fill = normal;
+				// Blend: normal -> bright
+				var index = Math.round(i / (max / blend.length));
+				var fill = '#' + blend[ (index >= 0) ? index : blend.length - 1 ];
+
 				if (Math.random() > 0.67) { // 33% chance
 					fill = '#000';
 				}
 				draw_perma(fill);
 			},
 			// Callback function
-			blacken,
-			40, // Max increment
-			id=30 // Initial delay
+			function(){
+				blacken(15, function(){}, callback);
+			},
+			max, // Max increment
+			id=25 // Initial delay
 		);
 	}
 
-	function blacken() {
-		var step = (1 - opaque) / 15;
+	// Iterations, inner function, callback function
+	function blacken(iter, inner, callback) {
+		var step = (1 - opaque) / iter;
 		var opacity = opaque;
 		var black = setInterval(function(){
 			ctx.fillStyle = 'rgba(0, 0, 0, '+ opacity +')';
 			ctx.fillRect(0, 0, w, h);
+
+			inner();
 
 			opacity += step;
 			if (opacity >= 1) {
