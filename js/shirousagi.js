@@ -241,11 +241,10 @@ function rain(text, callback) {
 			draw_perma();
 
 			// 25 is about the number it takes to go completely black
-			if (++i == 25) {
+			// Extra to stall so user can read text
+			if (++i == 35) {
 				clearInterval(clean);
-
-				// Extra to stall so user can read text
-				blacken(20, draw_perma, remove_perma);
+				remove_perma();
 			}
 		}, fade_speed);
 	}

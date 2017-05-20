@@ -63,12 +63,7 @@ html, body {
 	overflow: scroll;
 }
 
-::selection {
-	background: $light_blue;
-	color: #FFF;
-}
-
-::-moz-selection {
+::selection, ::-moz-selection {
 	background: $light_blue;
 	color: #FFF;
 }
