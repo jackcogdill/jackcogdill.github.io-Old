@@ -47,8 +47,12 @@ html, body {
 }
 
 #wrap {
+	display: block;
+	position: relative;
 	min-width: 100%;
 	min-height: 100%;
+	margin: 0 auto;
+
 	font-family: $font;
 	background: $dark_mid;
 	overflow: scroll;
@@ -205,8 +209,7 @@ $tsize_outer: $tsize + $toffset;
 }
 
 #info {
-	$w: 35%;
-	width: $w;
+	width: 35%;
 	$h: 50%;
 	height: $h;
 	margin: ($h / 4) auto 0;
@@ -310,14 +313,17 @@ $tsize_outer: $tsize + $toffset;
 	}
 }
 
-#src {
+#footer {
 	z-index: -1;
 	opacity: 0;
 
 	display: block;
 	width: 100%;
+	padding: 2em 0;
+	position: absolute;
+	bottom: 0;
+
 	text-align: center;
-	bottom: $fsize * 1.5;
 
 	> a {
 		font-size: $fsize * 2 / 3;
@@ -325,6 +331,6 @@ $tsize_outer: $tsize + $toffset;
 }
 
 // For the complete() function in /js/shirousagi.js
-#canvas, #info, #src {
+#canvas, #info, #footer {
 	@include transition(opacity 0.7s ease-in);
 }

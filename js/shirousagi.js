@@ -353,11 +353,11 @@ function complete_page() {
 		canvas.outerHTML = ''; // Remove the element from the document
 	}, 700);
 
-	info.style.zIndex = '2';
-	src.style.zIndex  = '2';
+	info.style.zIndex   = '2';
+	footer.style.zIndex = '2';
 
-	info.style.opacity = '1';
-	src.style.opacity  = '1';
+	info.style.opacity   = '1';
+	footer.style.opacity = '1';
 }
 
 function enter() {
