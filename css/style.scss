@@ -40,32 +40,27 @@ $dark_3: #070707;
 
 html, body {
 	margin: 0;
+	padding: 0;
 	width: 100%;
 	height: 100%;
 	background: #000;
-	overflow: none;
+
+	color: $bright_2;
+	font-family: $font;
 }
 
 #wrap {
+	z-index: -1;
+	opacity: 0;
+
 	display: block;
 	position: relative;
 	min-width: 100%;
 	min-height: 100%;
 	margin: 0 auto;
 
-	font-family: $font;
 	background: $dark_mid;
 	overflow: scroll;
-}
-
-a {
-	text-decoration: none;
-	color: #FFF;
-	@include transition(color 0.4s ease);
-
-	&:hover {
-		color: $light_blue;
-	}
 }
 
 ::selection {
@@ -76,6 +71,16 @@ a {
 ::-moz-selection {
 	background: $light_blue;
 	color: #FFF;
+}
+
+a {
+	text-decoration: none;
+	color: #FFF;
+	@include transition(color 0.4s ease);
+
+	&:hover {
+		color: $light_blue;
+	}
 }
 
 .vert-center-wrap {
@@ -157,71 +162,36 @@ $et_fsize: $fsize * 1.3;
 	-moz-user-select: none;
 }
 
-// SVG border size
-$svgb_size: 1px;
-$svgb_radius: 0.3em; // Border radius
-// SVG hover border color
-$shc_color: $light_blue;
-
-// Arrow border color
-$arb_color: $shc_color;
-$arrow_bg: $light_blue;
-$arrow_text_color: #FFF;
-
-// Triangle size
-$tsize: 0.7em;
-$tborder_size: $svgb_size;
-$toffset: round($tborder_size * 1.41421);
-$toffset: ($toffset / 16px) + 0em; // Convert from px to em
-$tsize_outer: $tsize + $toffset;
-
-.arrow {
-	display: block;
-	position: relative;
-	margin-top: $tsize_outer;
-	border: $tborder_size solid $arb_color;
-
-	// &::before, &::after {
-	&::after {
-		content: '';
-		display: block;
-		position: absolute;
-		bottom: 100%;
-		left: 50%;
-		height: 0;
-		width: 0;
-		border: solid transparent;
-	}
-
-	&::after {
-		border-bottom-color: $arrow_bg;
-		border-width: $tsize;
-		margin-left: -$tsize;
-	}
-
-	// For border on triangle
-	// ========================
-	// &::before {
-	// 	border-bottom-color: #FFF;
-	// 	border-width: $tsize_outer;
-	// 	margin-left: -$tsize_outer;
-	// }
-}
-
 #info {
 	width: 50%;
 	$h: 50%;
 	height: $h;
 	margin: ($h / 4) auto 0;
-	z-index: -1;
-	opacity: 0;
 
 	> .info-text {
-		color: $bright_2;
 		font-size: $fsize * 5 / 6;
 		text-align: center;
 	}
+}
 
+#footer {
+	display: block;
+	width: 100%;
+	padding: 2em 0;
+	position: absolute;
+	bottom: 0;
+
+	color: $soft;
+	font-size: $fsize * 2 / 3;
+	text-align: center;
+}
+
+// For the complete() function in /js/shirousagi.js
+#canvas, #wrap {
+	@include transition(opacity 0.7s ease-in);
+}
+
+#svg-container {
 	$svg: 4em;
 	$svg_cntr: $svg * 3 / 2;
 	$svg_marg: $svg / 2;
@@ -231,106 +201,133 @@ $tsize_outer: $tsize + $toffset;
 		@include transition($option $sht_dur ease);
 	}
 
-	> #svg-container {
-		width: 80%;
-		min-width: $svg_cntr * 3 + $svg_marg * 2;
-		margin: 5% auto;
-		display: flex;
-		justify-content: space-between;
+	// SVG border size
+	$svgb_size: 1px;
+	$svgb_radius: 0.3em; // Border radius
+	// SVG hover border color
+	$shc_color: $light_blue;
 
-		> div {
-			> a {
-				width:  $svg_cntr;
-				min-height: $svg_cntr;
-				display: inline-block;
-				border: $svgb_size solid $soft_3;
-				@include border-radius($svgb_radius);
-				@include svg_hover_transition(border-color);
+	// Arrow border color
+	$arb_color: $shc_color;
+	$arrow_bg: $light_blue;
+	$arrow_text_color: #FFF;
 
-				text-decoration: none;
+	// Triangle size
+	$tsize: 0.7em;
+	$tborder_size: $svgb_size;
+	$toffset: round($tborder_size * 1.41421);
+	$toffset: ($toffset / 16px) + 0em; // Convert from px to em
+	$tsize_outer: $tsize + $toffset;
 
-				> svg {
-					display: block;
-					height: $svg;
-					margin: ( $svg_marg / 2 ) auto 0;
-					fill: $bright_mid;
-					// -webkit-mask-image: -webkit-gradient(
-					// 	linear, left top, left bottom, from($soft), to($soft_rgba)
-					// );
-					@include svg_hover_transition(fill);
-				}
+	.arrow {
+		display: block;
+		position: relative;
+		margin-top: $tsize_outer;
+		border: $tborder_size solid $arb_color;
 
-				> .arrow-wrap {
-					position: relative;
-					margin-top: $svg_marg / 3;
+		// &::before, &::after {
+		&::after {
+			content: '';
+			display: block;
+			position: absolute;
+			bottom: 100%;
+			left: 50%;
+			height: 0;
+			width: 0;
+			border: solid transparent;
+		}
 
-					max-height: 0;
-					overflow-y: hidden;
-					@include transition(max-height 0.2s ease);
-				}
+		&::after {
+			border-bottom-color: $arrow_bg;
+			border-width: $tsize;
+			margin-left: -$tsize;
+		}
 
-				> .arrow-wrap > .arrow {
-					z-index: 1;
-					border-bottom-left-radius: $svgb_radius / 2;
-					border-bottom-right-radius: $svgb_radius / 2;
-					padding: 0.3em 0;
-					background-color: $arrow_bg;
-					color: $arrow_text_color;
+		// For border on triangle
+		// ========================
+		// &::before {
+		// 	border-bottom-color: #FFF;
+		// 	border-width: $tsize_outer;
+		// 	margin-left: -$tsize_outer;
+		// }
+	}
 
-					text-align: center;
+	width: 80%;
+	min-width: $svg_cntr * 3 + $svg_marg * 2;
+	margin: 5% auto;
+	display: flex;
+	justify-content: space-between;
 
-					// border: $tborder_size solid $shc_color;
+	> div {
+		> a {
+			width:  $svg_cntr;
+			min-height: $svg_cntr;
+			display: inline-block;
+			border: $svgb_size solid $soft_3;
+			@include border-radius($svgb_radius);
+			@include svg_hover_transition(border-color);
 
-					border-color: $arb_color transparent transparent;
-					border-width: $tborder_size 0 0;
-				}
+			text-decoration: none;
 
-				// Slide up the arrow when hover, slide down by default
-				> .arrow-wrap > .arrow::after {
-					margin-bottom: -$tsize + $toffset * 2;
-					@include transition(margin-bottom 0.2s ease);
-				}
+			> svg {
+				display: block;
+				height: $svg;
+				margin: ( $svg_marg / 2 ) auto 0;
+				fill: $bright_mid;
+				// -webkit-mask-image: -webkit-gradient(
+				// 	linear, left top, left bottom, from($soft), to($soft_rgba)
+				// );
+				@include svg_hover_transition(fill);
 			}
 
-			> a:hover {
-				border-color: $shc_color;
+			> .arrow-wrap {
+				position: relative;
+				margin-top: $svg_marg / 3;
 
-				> svg {
-					fill: #FFF;
-				}
+				max-height: 0;
+				overflow-y: hidden;
+				@include transition(max-height 0.2s ease);
+			}
 
-				> .arrow-wrap {
-					max-height: 100%;
-					@include transition(max-height 0.8s ease-in-out);
+			> .arrow-wrap > .arrow {
+				z-index: 1;
+				border-bottom-left-radius: $svgb_radius / 2;
+				border-bottom-right-radius: $svgb_radius / 2;
+				padding: 0.3em 0;
+				background-color: $arrow_bg;
+				color: $arrow_text_color;
 
-					> .arrow::after {
-						margin-bottom: 0;
-						@include transition(margin-bottom $sht_dur ease-in);
-					}
+				text-align: center;
+
+				// border: $tborder_size solid $shc_color;
+
+				border-color: $arb_color transparent transparent;
+				border-width: $tborder_size 0 0;
+			}
+
+			// Slide up the arrow when hover, slide down by default
+			> .arrow-wrap > .arrow::after {
+				margin-bottom: -$tsize + $toffset * 2;
+				@include transition(margin-bottom 0.2s ease);
+			}
+		}
+
+		> a:hover {
+			border-color: $shc_color;
+
+			> svg {
+				fill: #FFF;
+			}
+
+			> .arrow-wrap {
+				max-height: 100%;
+				@include transition(max-height 0.8s ease-in-out);
+
+				> .arrow::after {
+					margin-bottom: 0;
+					@include transition(margin-bottom $sht_dur ease-in);
 				}
 			}
 		}
 	}
-}
-
-#footer {
-	z-index: -1;
-	opacity: 0;
-
-	display: block;
-	width: 100%;
-	padding: 2em 0;
-	position: absolute;
-	bottom: 0;
-
-	text-align: center;
-
-	> a {
-		font-size: $fsize * 2 / 3;
-	}
-}
-
-// For the complete() function in /js/shirousagi.js
-#canvas, #info, #footer {
-	@include transition(opacity 0.7s ease-in);
 }
