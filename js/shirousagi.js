@@ -372,18 +372,24 @@ window.onload = function () {
 	              // the typing animation of #enter-text
 	setTimeout(function(){
 
-		var activate;
 		// User touched screen on mobile
-		window.addEventListener('touchstart', activate = function(){
+		window.addEventListener('touchstart', function touch_fun(e) {
+			activate(e);
+
 			// Disable the function now, if either event happens
-			document.onkeydown = null;
-			window.removeEventListener('touchstart', activate, false);
-			enter();
+			window.removeEventListener('touchstart', touch_fun, false);
 		}, false);
 
-		document.onkeydown = function (e) {
-			activate();
+		// User pressed a key
+		document.onkeydown = function(e) {
+			activate(e);
 		};
+
+		function activate(event) {
+			event.preventDefault();
+			document.onkeydown = null;
+			enter();
+		}
 
 	}, wait * 1000);
 };
