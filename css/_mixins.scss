@@ -12,3 +12,9 @@
 	-moz-border-radius: $amount;
 	border-radius: $amount;
 }
+
+@mixin columns($num) {
+	-webkit-columns: auto $num;
+	-moz-columns: auto $num;
+	columns: auto $num;
+}
