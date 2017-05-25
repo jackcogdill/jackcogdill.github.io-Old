@@ -8,6 +8,7 @@ $fsize: 1.1em;
 // Greens
 // ============
 $soft:      #2A742A;
+$soft_05:   #1B4A1B;
 $soft_2:    #63B963;
 $soft_3:    #254625;
 $soft_4:    #0E1C0E;
@@ -67,10 +68,6 @@ a {
 	&:hover {
 		color: $light_blue;
 	}
-
-	&.selected {
-		color: $light_blue;
-	}
 }
 
 .vert-center-wrap {
@@ -81,67 +78,106 @@ a {
 	z-index: 2;
 }
 
-// Enter text vars
-$enter_str: 'press any key or tap to enter'; // Copy the string from index.html here
-$text_len: str-length($enter_str) + 1;
-$final_w: $text_len / 2 + if($text_len % 2 == 0, 0.75em, 0.5em); // This is in em
-$et_fsize: $fsize * 1.3;
 
-.enter-text-wrap {
-	display: block;
-	font-size: $et_fsize;
-	width: $final_w;
-	margin: 0 auto;
+@function final_w($str) {
+	$text_len: str-length($str) + 1;
+
+	$final_w: $text_len / 2;
+
+	@if ($text_len > 10) {
+		$final_w: $final_w + if($text_len % 2 == 0, 0.75, 0.5);
+	}
+	@else {
+		$final_w: $final_w - 0.2;
+	}
+
+	// This is in em
+	@return $final_w + 0em;
 }
 
-#enter-text {
-	display: block;
-
+@mixin anim_setup() {
 	// For animations
 	width: 0;
 	white-space: nowrap;
 	overflow: hidden;
 	// Return to transparent when finished typing
 	border-right: 2px solid transparent;
+}
+
+@mixin type_animate($str, $iter: null, $pad: false) {
+	// Animation vars
+	$len: str-length($str);
+	$steps: $len;
+
+	$type_delay: 1s;
+	// Duration
+	$type_dur: if($steps <= 10, 0.4s, 1s);
+	$cursor_dur: 0.5s;
+
+	$cursor_iter: null;
+	@if ($iter) {
+		$cursor_iter: $iter;
+	}
+	@else {
+		// Only flash cursor until done typing
+		$cursor_iter: ($type_delay + $type_dur) / $cursor_dur;
+	}
+
+	$kf_type:  'type_'  + $len;
+	$kf_blink: 'blink_' + $len;
+
+	@keyframes #{$kf_type} {
+		from {
+			width: 0;
+			@if ($pad) {
+				padding-left: 0;
+			}
+		}
+		to {
+			width: final_w($str);
+			@if ($pad) {
+				padding-left: (0.4 / 8 + 0em);
+			}
+		}
+	}
+	@keyframes #{$kf_blink} {
+		from {
+			border-right-color: transparent;
+		}
+		to {
+			border-right-color: $soft_2;
+		}
+	}
+
+	@include animation(
+		#{$kf_type} $type_dur steps($steps) $type_delay 1 normal both,
+		#{$kf_blink} $cursor_dur steps(50) $cursor_iter alternate
+	);
+}
+
+// Enter text vars
+$enter_str: 'press any key or tap to enter'; // Copy the string from index.html here
+$et_fsize: $fsize * 1.3;
+
+.enter-text-wrap {
+	display: block;
+	font-size: $et_fsize;
+	width: final_w($enter_str);
+	margin: 0 auto;
+}
+
+#enter-text {
+	display: block;
+
+	@include anim_setup();
 
 	text-align: center;
 	color: $bright;
 
-	// Animation vars
-	$steps: $text_len - 1;
-	$type_delay: 1s;
-	$type_dur: 1s; // Duration
-	$cursor_dur: 0.5s;
-	// $cursor_iter: ($type_delay + $type_dur) / $cursor_dur;
-	$cursor_iter: infinite;
-
-	@include animation(
-		type $type_delay steps($steps) $type_dur 1 normal both,
-		blink_cursor $cursor_dur steps(50) $cursor_iter alternate
-	);
-}
-
-@keyframes type {
-	from {
-		width: 0;
-	}
-	to {
-		width: $final_w;
-	}
-}
-@keyframes blink_cursor {
-	from {
-		border-right-color: transparent;
-	}
-	to {
-		border-right-color: $soft_2;
-	}
+	@include type_animate($enter_str, infinite);
 }
 
 #wrap {
-	z-index: -1;
-	opacity: 0;
-
 	display: block;
 	position: relative;
 	min-width: 100%;
@@ -151,8 +187,13 @@ $et_fsize: $fsize * 1.3;
 	background: $dark_mid;
 	overflow-y: scroll;
 
-	// Prevent extra space on space until after canvas animations are done
-	max-height: 0;
+	// Only add this class to the home page
+	&.home {
+		z-index: -1;
+		opacity: 0;
+		// Prevent extra space on space until after canvas animations are done
+		max-height: 0;
+	}
 }
 
 #canvas {
@@ -180,11 +221,54 @@ $et_fsize: $fsize * 1.3;
 	width: 50%;
 	$h: 50%;
 	min-height: $h;
-	margin: ($h / 4) auto 0;
+	margin: 4em auto 0;
 
-	> .info-text {
-		font-size: $fsize * 5 / 6;
-		text-align: center;
+	color: $bright;
+
+	// Info title css
+	> .info-title-wrap {
+		display: block;
+		margin: 0 auto;
+		font-size: $fsize * 8;
+
+		// &.about {
+		// 	// Copy string from about/index.html
+		// 	$str: 'About';
+		// 	width: final_w($str);
+
+		// 	> .info-title {
+		// 		@include type_animate($str, null, true);
+		// 	}
+		// }
+
+		// &.projects {
+		// 	// Copy string from projects/index.html
+		// 	$str: 'Projects';
+		// 	width: final_w($str);
+
+		// 	> .info-title {
+		// 		@include type_animate($str, null, true);
+		// 	}
+		// }
+
+		// &.contact {
+		// 	// Copy string from contact/index.html
+		// 	$str: 'Contact';
+		// 	width: final_w($str);
+
+		// 	> .info-title {
+		// 		@include type_animate($str, null, true);
+		// 	}
+		// }
+
+		> .info-title {
+			color: $soft_05;
+			text-align: center;
+			// $pad: 0.4 / 8 + 0em;
+			// padding: 0 0 $pad $pad;
+
+			// @include anim_setup();
+		}
 	}
 }
 
@@ -198,7 +282,16 @@ $et_fsize: $fsize * 1.3;
 	> a {
 		display: block;
 		font-size: $fsize * 4;
+		color: $bright;
 		transition: none;
+
+		&:hover {
+			color: #FFF;
+		}
+
+		&.selected {
+			color: #FFF;
+		}
 	}
 }
 
