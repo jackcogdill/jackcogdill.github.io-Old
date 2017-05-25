@@ -7,6 +7,11 @@
 	transition: $args;
 }
 
+@mixin animation($args...) {
+	-webkit-animation: $args;
+	animation: $args;
+}
+
 @mixin border-radius($amount) {
 	-webkit-border-radius: $amount;
 	-moz-border-radius: $amount;

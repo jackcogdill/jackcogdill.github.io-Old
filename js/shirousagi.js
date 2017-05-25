@@ -352,8 +352,9 @@ function complete_page() {
 		canvas.outerHTML = ''; // Remove the element from the document
 	}, 700);
 
-	wrap.style.zIndex  = '2';
-	wrap.style.opacity = '1';
+	wrap.style.zIndex    = '2';
+	wrap.style.opacity   = '1';
+	wrap.style.maxHeight = 'none'; // Allow the wrap to be default height again
 }
 
 function enter() {
