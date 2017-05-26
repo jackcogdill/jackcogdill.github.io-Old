@@ -352,9 +352,15 @@ function complete_page() {
 		canvas.outerHTML = ''; // Remove the element from the document
 	}, 700);
 
-	wrap.style.zIndex    = '2';
+	wrap.style.zIndex   = '2';
+	footer.style.zIndex = '2';
+
 	wrap.style.opacity   = '1';
-	wrap.style.maxHeight = 'none'; // Allow the wrap to be default height again
+	footer.style.opacity = '1';
+
+	// Allow the wrap to be default height again
+	wrap.style.maxHeight   = 'none';
+	footer.style.maxHeight = 'none';
 }
 
 function enter() {

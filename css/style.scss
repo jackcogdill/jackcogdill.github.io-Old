@@ -177,15 +177,16 @@ $et_fsize: $fsize * 1.3;
 	@include type_animate($enter_str, infinite);
 }
 
+$footerh: 10rem;
 #wrap {
-	display: block;
-	position: relative;
 	min-width: 100%;
 	min-height: 100%;
-	margin: 0 auto;
 
-	background: $dark_mid;
 	overflow-y: scroll;
+}
+
+#wrap, #footer {
+	background: $dark_mid;
 
 	// Only add this class to the home page
 	&.home {
@@ -212,16 +213,16 @@ $et_fsize: $fsize * 1.3;
 }
 
 // For the complete() function in /js/shirousagi.js
-#canvas, #wrap {
+#canvas {
 	@include transition(opacity 0.7s ease-in);
 }
 
 // For pages other than home
 #info {
 	width: 50%;
-	$h: 50%;
-	min-height: $h;
-	margin: 4em auto 0;
+	margin: 0 auto;
+	padding: 4em;
+	padding-bottom: $footerh;
 
 	color: $bright;
 
@@ -275,14 +276,13 @@ $et_fsize: $fsize * 1.3;
 // For the home page links
 #home {
 	width: 40%;
-	$h: 50%;
-	min-height: $h;
-	margin: ($h / 4) auto 0;
+	margin: 0 auto;
+	padding: 12% 0 $footerh;
 
 	> a {
 		display: block;
 		font-size: $fsize * 4;
-		color: $soft_05;
+		color: $bright;
 		transition: none;
 
 		&:hover {
@@ -303,7 +303,7 @@ $et_fsize: $fsize * 1.3;
 	> a {
 		display: block;
 		font-size: $fsize * 2;
-		color: $soft_05;
+		color: $bright;
 		transition: none;
 
 		&:hover {
@@ -317,10 +317,10 @@ $et_fsize: $fsize * 1.3;
 }
 
 #footer {
-	display: block;
-	width: 100%;
-	padding: 2em 0;
-	bottom: 0;
+	$pad: 2rem;
+	padding-top: $pad;
+	height: $footerh - $pad;
+	margin-top: -#{$footerh};
 
 	color: $soft;
 	font-size: $fsize * 2 / 3;
@@ -355,10 +355,10 @@ $et_fsize: $fsize * 1.3;
 
 	// Height is the SVG itself, the margin,
 	// the arrow dropdown, plus the border converted to em
-	height: $svg * (1 + 1 + 0.5) + ( ($svgb_size / 16px) + 0em );
+	// height: $svg * (1 + 1 + 0.5) + ( ($svgb_size / 16px) + 0em );
 	width: 40%;
 	min-width: $svg_cntr * $num_svg + $svg_marg * 2;
-	margin: ($svg / 2) auto 0;
+	margin: 0 auto;
 	@include columns($num_svg);
 
 	$sht_dur: 0.4s; // Duration
