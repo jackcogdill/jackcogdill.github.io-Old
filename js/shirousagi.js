@@ -352,7 +352,7 @@ function complete_page() {
     setTimeout(function(){
         canvas.style.zIndex = '-1';
         canvas.outerHTML = ''; // Remove the element from the document
-    }, 700);
+    }, 1500);
 
     wrap.style.zIndex  = '2';
     wrap.style.opacity = '1';
