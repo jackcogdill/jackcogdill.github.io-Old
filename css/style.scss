@@ -31,12 +31,20 @@ $dark_blue:     #002C92;
 $dark_blue_2:   #001C82;
 $dark_blue_3:   #000022;
 
+$dark_blue_mid: #18191a;
+$dark_blue_up:  #011931;
+
 // Very dark
 // ============
-$dark: #272926;
-$dark_mid: #191A18;
-$dark_2: #0B0B0A;
-$dark_3: #070707;
+$dark_dark:     #272926;
+$dark_dark_mid: #191A18;
+$dark_dark_2:   #0B0B0A;
+$dark_dark_3:   #070707;
+
+// New page scheme
+$back:  #fafbfb;
+$dark:  #121920;
+$light: #057bf1;
 
 
 html, body {
@@ -186,7 +194,7 @@ $footerh: 10rem;
 }
 
 #wrap, #footer {
-    background: $dark_mid;
+    background: $back;
 
     // Only add this class to the home page
     &.home {
@@ -317,11 +325,11 @@ $footerh: 10rem;
     $svgb_size: 1px;
     $svgb_radius: 0.3em; // Border radius
     // SVG hover border color
-    $shc_color: $light_blue;
+    $shc_color: $light;
 
     // Arrow border color
     $arb_color: $shc_color;
-    $arrow_bg: $light_blue;
+    $arrow_bg: $shc_color;
     $arrow_text_color: #FFF;
 
     // Triangle size
@@ -386,7 +394,7 @@ $footerh: 10rem;
             min-height: $svg_cntr;
             display: inline-block;
 
-            border: $svgb_size solid $soft_3;
+            border: $svgb_size solid $dark;
             @include border-radius($svgb_radius);
             @include svg_hover_transition(border-color);
 
@@ -396,7 +404,7 @@ $footerh: 10rem;
                 display: block;
                 height: $svg;
                 margin: ( $svg_marg / 2 ) auto 0;
-                fill: $bright_mid;
+                fill: $dark;
                 // -webkit-mask-image: -webkit-gradient(
                 //     linear, left top, left bottom, from($soft), to($soft_rgba)
                 // );
@@ -446,7 +454,7 @@ $footerh: 10rem;
             border-color: $shc_color;
 
             > svg {
-                fill: #FFF;
+                fill: $shc_color;
             }
 
             > .arrow-wrap {
