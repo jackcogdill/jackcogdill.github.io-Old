@@ -372,25 +372,18 @@ function enter() {
 window.onload = function () {
     setup_canvas();
 
-    var wait = 2; // How long to wait (in seconds) before allowing activate().
-                  // This is waiting 2 seconds for the delay and duration of
-                  // the typing animation of #enter-text
-    setTimeout(function(){
+    // User touched screen on mobile
+    window.addEventListener('touchstart', activate_enter, false);
 
-        // User touched screen on mobile
+    // User pressed a key
+    document.onkeydown = function(event) {
+        activate_enter(event);
+    };
+
+    function activate_enter(event) {
+        event.preventDefault();
+        document.onkeydown = null;
         window.addEventListener('touchstart', activate_enter, false);
-
-        // User pressed a key
-        document.onkeydown = function(event) {
-            activate_enter(event);
-        };
-
-        function activate_enter(event) {
-            event.preventDefault();
-            document.onkeydown = null;
-            window.addEventListener('touchstart', activate_enter, false);
-            enter();
-        }
-
-    }, wait * 1000);
+        enter();
+    }
 };
