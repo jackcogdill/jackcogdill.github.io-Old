@@ -274,28 +274,6 @@ $footerh: 10rem;
 	}
 }
 
-// For the home page links
-#home {
-	width: 40%;
-	margin: 0 auto;
-	padding: 12% 0 $footerh;
-
-	> a {
-		display: block;
-		font-size: $fsize * 4;
-		color: $bright;
-		transition: none;
-
-		&:hover {
-			color: #E0E0E0;
-		}
-
-		&.selected {
-			color: #E0E0E0;
-		}
-	}
-}
-
 .left-home {
 	margin: 8em 0 0 4em;
 	position: absolute;
