@@ -1,9 +1,12 @@
-// sass -t compressed --watch style.scss:style.css
-@import "mixins";
+// This command watches for changes in style.scss and generates _styles.css
+// Then use entr to watch for changes in _styles.css and execute postcss to handle vendor prefixes
+// Ctrl + c to end both processes
+// -------------
+// trap 'kill %1' SIGINT; sass -t compressed --watch style.scss:_style.css & find _style.css | entr postcss _style.css --use autoprefixer -o style.css
 
 @import url('http://fonts.googleapis.com/css?family=Anonymous+Pro');
-$font: "Anonymous Pro", monospace;
-$fsize: 1.1em;
+$font: 'Anonymous Pro', monospace;
+$fsize: 1.1rem;
 
 // Greens
 // ============
@@ -44,7 +47,38 @@ $dark_dark_3:   #070707;
 // New page scheme
 $back:  #fafbfb;
 $dark:  #121920;
-$light: #057bf1;
+$light: #2F6CD2; // #057bf1
+
+$helv-light: 300 $fsize (
+    'HelveticaNeueLight',
+    'HelveticaNeue-Light',
+    'Helvetica Neue Light',
+    'HelveticaNeue',
+    'Helvetica Neue',
+    'Helvetica',
+    'Arial',
+    sans-serif
+);
+$helv-thin: 200 $fsize (
+    'HelveticaNeueThin',
+    'HelveticaNeue-Thin',
+    'Helvetica Neue Thin',
+    'HelveticaNeue',
+    'Helvetica Neue',
+    'Arial',
+    sans-serif
+);
+$helv-ultra-light: 100 $fsize (
+    'HelveticaNeue-UltraLight',
+    'Helvetica Neue UltraLight',
+    'HelveticaNeueUltraLight',
+    'HelveticaNeue-Ultra-Light',
+    'Helvetica Neue Ultra Light',
+    'HelveticaNeue',
+    'Helvetica Neue',
+    'Arial',
+    sans-serif
+);
 
 
 html, body {
@@ -54,27 +88,28 @@ html, body {
     height: 100%;
     background: #000;
 
-    color: $bright_2;
+    color: $dark;
     font-family: $font;
 }
 
 ::selection {
-    background: $light_blue;
+    background: $light;
     color: #FFF;
 }
 
 ::-moz-selection {
-    background: $light_blue;
+    background: $light;
     color: #FFF;
 }
 
 a {
     text-decoration: none;
-    color: #FFF;
-    @include transition(color 0.4s ease);
+    color: $light;
+    transition: color 0.4s ease, background-color 0.4s ease;
 
     &:hover {
-        color: $light_blue;
+        color: #FFF;
+        background-color: $light;
     }
 }
 
@@ -157,7 +192,7 @@ a {
         }
     }
 
-    @include animation(
+    animation: (
         #{$kf_type} $type_dur steps($steps) $type_delay 1 normal both,
         #{$kf_blink} $cursor_dur steps(50) $cursor_iter alternate
     );
@@ -185,24 +220,20 @@ $et_fsize: $fsize * 1.3;
     @include type_animate($enter_str, infinite);
 }
 
-$footerh: 10rem;
 #wrap {
     min-width: 100%;
     min-height: 100%;
+    position: relative;
 
     overflow-y: scroll;
-}
 
-#wrap, #footer {
-    background: $back;
+    background: url('../images/back.jpg') no-repeat center center fixed;
+    background-size: cover;
 
-    // Only add this class to the home page
-    &.home {
-        z-index: -1;
-        opacity: 0;
-        // Prevent extra space on space until after canvas animations are done
-        max-height: 0;
-    }
+    z-index: -1;
+    opacity: 0;
+    // Prevent extra space on space until after canvas animations are done
+    max-height: 0;
 }
 
 #canvas {
@@ -222,91 +253,67 @@ $footerh: 10rem;
 
 // For the complete() function in /js/shirousagi.js
 #canvas {
-    @include transition(opacity 0.7s ease-in);
+    transition: opacity 0.7s ease-in;
 }
 
-// For pages other than home
-#info {
-    width: 50%;
-    margin: 0 auto;
-    padding: 4em;
-    padding-bottom: $footerh;
-
-    color: $bright;
-
-    // Info title css
-    > .info-title-wrap {
-        display: block;
-        margin: 0 auto;
-        font-size: $fsize * 8;
-
-        // &.about {
-        //     // Copy string from about/index.html
-        //     $str: 'About';
-        //     width: final_w($str);
-
-        //     > .info-title {
-        //         @include type_animate($str, null, true);
-        //     }
-        // }
-
-        // &.projects {
-        //     // Copy string from projects/index.html
-        //     $str: 'Projects';
-        //     width: final_w($str);
-
-        //     > .info-title {
-        //         @include type_animate($str, null, true);
-        //     }
-        // }
-
-        // &.contact {
-        //     // Copy string from contact/index.html
-        //     $str: 'Contact';
-        //     width: final_w($str);
-
-        //     > .info-title {
-        //         @include type_animate($str, null, true);
-        //     }
-        // }
-
-        > .info-title {
-            color: $soft_05;
-            text-align: center;
-            padding-bottom: 1rem;
-            // $pad: 0.4 / 8 + 0em;
-            // padding: 0 0 $pad $pad;
-
-            // @include anim_setup();
-        }
-    }
-}
-
-.left-home {
-    margin: 8em 0 0 4em;
+#info-back1, #info-back2, #info-back3, #info-wrap {
+    $width: 55%;
+    $height: 85%;
+    width: $width;
+    height: $height;
+    left: 5%;
+    top: (100.0 - $height) / 2.0;
     position: absolute;
-    left: 0;
+}
 
-    > a {
-        display: block;
-        font-size: $fsize * 2;
-        color: $bright;
-        transition: none;
+#info-back1, #info-back2, #info-back3 {
+    display: block;
+    content: '';
+}
 
-        &:hover {
-            color: #E0E0E0;
-        }
+#info-back1 {
+    z-index: 1;
+    background-color: $back;
+}
 
-        &.selected {
-            color: #E0E0E0;
+#info-back2 {
+    z-index: 2;
+    background: url('../images/back.jpg') no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(2em);
+}
+
+#info-back3 {
+    z-index: 3;
+    background-color: $back;
+    opacity: 0.7;
+}
+
+#info-wrap {
+    z-index: 4;
+    background-color: transparent;
+}
+
+#info {
+    height: 100%;
+
+    > #info-inner {
+        padding: 2em;
+        padding-bottom: 0;
+
+        font: $helv-light;
+
+        .h1 {
+            font: $helv-ultra-light;
+            font-size: $fsize * 4;
+            text-align: center;
         }
     }
 }
 
 #footer {
-    $pad: 2rem;
-    padding-top: $pad;
-    height: $footerh - $pad;
+    $footerh: 10em;
+    height: $footerh;
     margin-top: -#{$footerh};
 
     color: $soft;
@@ -346,11 +353,11 @@ $footerh: 10rem;
     width: 40%;
     min-width: $svg_cntr * $num_svg + $svg_marg * 2;
     margin: 0 auto;
-    @include columns($num_svg);
+    columns: $num_svg;
 
     $sht_dur: 0.4s; // Duration
     @mixin svg_hover_transition($option) {
-        @include transition($option $sht_dur ease);
+        transition: $option $sht_dur ease;
     }
 
 
@@ -395,7 +402,7 @@ $footerh: 10rem;
             display: inline-block;
 
             border: $svgb_size solid $dark;
-            @include border-radius($svgb_radius);
+            border-radius: $svgb_radius;
             @include svg_hover_transition(border-color);
 
             text-decoration: none;
@@ -424,7 +431,7 @@ $footerh: 10rem;
 
                 max-height: 0;
                 overflow-y: hidden;
-                @include transition(max-height 0.2s ease);
+                transition: max-height 0.2s ease;
             }
 
             > .arrow-wrap > .arrow {
@@ -446,11 +453,12 @@ $footerh: 10rem;
             // Slide up the arrow when hover, slide down by default
             > .arrow-wrap > .arrow::after {
                 margin-bottom: -$tsize + $toffset * 2;
-                @include transition(margin-bottom 0.2s ease);
+                transition: margin-bottom 0.2s ease;
             }
         }
 
         > a:hover {
+            background: none;
             border-color: $shc_color;
 
             > svg {
@@ -459,11 +467,11 @@ $footerh: 10rem;
 
             > .arrow-wrap {
                 max-height: 100%;
-                @include transition(max-height 0.8s ease-in-out);
+                transition: max-height 0.8s ease-in-out;
 
                 > .arrow::after {
                     margin-bottom: 0;
-                    @include transition(margin-bottom $sht_dur ease-in);
+                    transition: margin-bottom $sht_dur ease-in;
                 }
             }
         }
