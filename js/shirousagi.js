@@ -383,7 +383,7 @@ window.onload = function () {
     function activate_enter(event) {
         event.preventDefault();
         document.onkeydown = null;
-        window.addEventListener('touchstart', activate_enter, false);
+        window.removeEventListener('touchstart', activate_enter, false);
         enter();
     }
 };
