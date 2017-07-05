@@ -33,12 +33,14 @@ function setup_canvas() {
     // Modify canvas to be high DPI
     // Lovingly adapted from http://stackoverflow.com/a/15666143/1313757
     var dpr = window.devicePixelRatio || 1;
-    var bsr =    ctx.webkitBackingStorePixelRatio
-              || ctx.mozBackingStorePixelRatio
-              || ctx.msBackingStorePixelRatio
-              || ctx.oBackingStorePixelRatio
-              || ctx.backingStorePixelRatio
-              || 1;
+    var bsr = (
+        ctx.webkitBackingStorePixelRatio
+        || ctx.mozBackingStorePixelRatio
+        || ctx.msBackingStorePixelRatio
+        || ctx.oBackingStorePixelRatio
+        || ctx.backingStorePixelRatio
+        || 1
+    );
     var ratio = dpr / bsr;
     canvas.width  = w * ratio;
     canvas.height = h * ratio;
