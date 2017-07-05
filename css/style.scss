@@ -1,8 +1,7 @@
-// This command watches for changes in style.scss and generates _styles.css
-// Then use entr to watch for changes in _styles.css and execute postcss to handle vendor prefixes
-// Ctrl + c to end both processes
-// -------------
-// trap 'kill %1' SIGINT; sass -t compressed --watch style.scss:_style.css & find _style.css | entr postcss _style.css --use autoprefixer -o style.css
+// Use watch_css.sh to:
+// - Watch for changes in style.scss and generate _styles.css
+// - Then use entr to watch for changes in _styles.css and execute postcss to handle vendor prefixes
+
 
 @import url('http://fonts.googleapis.com/css?family=Anonymous+Pro');
 $font: 'Anonymous Pro', monospace;
@@ -247,12 +246,8 @@ $et_fsize: $fsize * 1.3;
 
     // Disallow select canvas
     user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-}
 
-// For the complete() function in /js/shirousagi.js
-#canvas {
+    opacity: 1;
     transition: opacity 0.7s ease-in;
 }
 
@@ -412,15 +407,9 @@ $et_fsize: $fsize * 1.3;
                 height: $svg;
                 margin: ( $svg_marg / 2 ) auto 0;
                 fill: $dark;
-                // -webkit-mask-image: -webkit-gradient(
-                //     linear, left top, left bottom, from($soft), to($soft_rgba)
-                // );
                 @include svg_hover_transition(fill);
 
                 > text {
-                    -webkit-user-select: none;
-                    -moz-user-select: none;
-                    -ms-user-select: none;
                     user-select: none;
                 }
             }
