@@ -378,21 +378,17 @@ window.onload = function () {
     setTimeout(function(){
 
         // User touched screen on mobile
-        window.addEventListener('touchstart', function touch_fun(e) {
-            activate(e);
-
-            // Disable the function now, if either event happens
-            window.removeEventListener('touchstart', touch_fun, false);
-        }, false);
+        window.addEventListener('touchstart', activate_enter, false);
 
         // User pressed a key
-        document.onkeydown = function(e) {
-            activate(e);
+        document.onkeydown = function(event) {
+            activate_enter(event);
         };
 
-        function activate(event) {
+        function activate_enter(event) {
             event.preventDefault();
             document.onkeydown = null;
+            window.addEventListener('touchstart', activate_enter, false);
             enter();
         }
 
