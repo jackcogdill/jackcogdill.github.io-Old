@@ -43,10 +43,18 @@ $dark_dark_mid: #191A18;
 $dark_dark_2:   #0B0B0A;
 $dark_dark_3:   #070707;
 
-// New page scheme
-$back:  #fafbfb;
-$dark:  #121920;
-$light: #2F6CD2; // #057bf1
+
+// ==========================================================
+//                      Main page scheme
+// ==========================================================
+
+$back:  #0a0b0b;
+$dark:  #D2D9E0; // Text color
+$light: #2FD26C; // (#057bf1) // Green scheme color
+$opposite:  #121920; // Link hover text color
+
+// ==========================================================
+
 
 $helv-light: 300 $fsize (
     'HelveticaNeueLight',
@@ -107,7 +115,7 @@ a {
     transition: color 0.4s ease, background-color 0.4s ease;
 
     &:hover {
-        color: #FFF;
+        color: $opposite;
         background-color: $light;
     }
 }
@@ -278,7 +286,7 @@ $svg_minw: 0;
     // Arrow border color
     $arb_color: $shc_color;
     $arrow_bg: $shc_color;
-    $arrow_text_color: #FFF;
+    $arrow_text_color: $opposite;
 
     // Triangle size
     $tsize: $svg / 5.7;
@@ -309,7 +317,7 @@ $svg_minw: 0;
         position: relative;
         margin-top: $tsize_outer;
         border: $tborder_size solid $arb_color;
-        font-size: $svg / 4;
+        font-size: ($svg / 4) * 1.1;
 
         // &::before, &::after {
         &::after {
@@ -416,12 +424,16 @@ $svg_minw: 0;
 }
 
 #info-back1, #info-back2, #info-back3, #info-wrap {
-    $width: 55%;
+    @function half($num) {
+        @return (100.0 - $num) / 2.0;
+    }
+
+    $width: 65%;
     $height: 85%;
     width: $width;
     height: $height;
-    left: 5%;
-    top: (100.0 - $height) / 2.0;
+    left: half($width);
+    top: half($height);
     position: absolute;
     min-width: $svg_minw;
 }
@@ -443,17 +455,18 @@ $svg_minw: 0;
         height: 100%;
         background: url('../images/back.jpg') no-repeat center center fixed;
         background-size: cover;
-        filter: blur(2em) saturate(2);
+        filter: blur(0.5em);
     }
 }
 
 #info-back3 {
     background-color: $back;
-    opacity: 0.75;
+    opacity: 0.5;
 }
 
 #info-wrap {
     background-color: transparent;
+    border: 1px solid $opposite;
 }
 
 #info {
