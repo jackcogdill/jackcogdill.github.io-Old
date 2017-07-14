@@ -60,7 +60,10 @@ function rain(text, callback) {
     var alpha       = '0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ';
     var hspce       = 1.1; // Horizontal spacing between glyphs
     var vspce       = 1.2; // Vertical spacing between glyphs
-    var fsize       = 14;  // Fontsize
+
+    // Fontsize
+    var fsize = (w > 980) ? 14 : 42;
+
     var font_family = 'Anonymous Pro';
     var font        = fsize + 'pt ' + font_family + ', monospace';
 
@@ -365,7 +368,10 @@ function enter() {
     var elem = document.getElementById('enter-text');
     elem.outerHTML = ''; // Remove the element from the document
 
-    var text = 'JACK COGDILL // WELCOME';
+    var text = (w > 980)
+        ? 'JACK COGDILL // WELCOME'
+        : 'JACK COGDILL';
+
     rain(text, complete_page);
 }
 
