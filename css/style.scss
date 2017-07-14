@@ -5,7 +5,26 @@
 
 @import url('https://fonts.googleapis.com/css?family=Anonymous+Pro');
 $font: 'Anonymous Pro', monospace;
+
 $fsize: 1.1rem;
+$msize: $fsize * 3; // Mobile font size
+
+@mixin comp($left, $right...) {
+    @media (min-width: 768px) {
+        #{$left}: $right;
+    }
+}
+
+@mixin mobile($left, $right...) {
+    @media (max-width: 768px) {
+        #{$left}: $right;
+    }
+}
+
+@mixin mobile_fsize($left, $multiple) {
+    @include comp($left, $fsize * $multiple);
+    @include mobile($left, $msize * $multiple);
+}
 
 // Greens
 // ============
@@ -55,7 +74,6 @@ $opposite:  #121920; // Link hover text color
 
 // ==========================================================
 
-
 $helv-light: 300 $fsize (
     'HelveticaNeueLight',
     'HelveticaNeue-Light',
@@ -76,6 +94,37 @@ $helv-thin: 200 $fsize (
     sans-serif
 );
 $helv-ultra-light: 100 $fsize (
+    'HelveticaNeue-UltraLight',
+    'Helvetica Neue UltraLight',
+    'HelveticaNeueUltraLight',
+    'HelveticaNeue-Ultra-Light',
+    'Helvetica Neue Ultra Light',
+    'HelveticaNeue',
+    'Helvetica Neue',
+    'Arial',
+    sans-serif
+);
+
+$m-helv-light: 300 $msize (
+    'HelveticaNeueLight',
+    'HelveticaNeue-Light',
+    'Helvetica Neue Light',
+    'HelveticaNeue',
+    'Helvetica Neue',
+    'Helvetica',
+    'Arial',
+    sans-serif
+);
+$m-helv-thin: 200 $msize (
+    'HelveticaNeueThin',
+    'HelveticaNeue-Thin',
+    'Helvetica Neue Thin',
+    'HelveticaNeue',
+    'Helvetica Neue',
+    'Arial',
+    sans-serif
+);
+$m-helv-ultra-light: 100 $msize (
     'HelveticaNeue-UltraLight',
     'Helvetica Neue UltraLight',
     'HelveticaNeueUltraLight',
@@ -207,11 +256,10 @@ a {
 
 // Enter text vars
 $enter_str: 'press any key or tap to enter'; // Copy the string from index.html here
-$et_fsize: $fsize * 1.3;
 
 .enter-text-wrap {
     display: block;
-    font-size: $et_fsize;
+    @include mobile_fsize(font-size, 1.3);
     width: final_w($enter_str);
     margin: 0 auto;
 }
@@ -265,7 +313,7 @@ $et_fsize: $fsize * 1.3;
     margin-top: -#{$footerh};
 
     color: $soft;
-    font-size: $fsize * 2 / 3;
+    @include mobile_fsize(font-size, 2 / 3);
     text-align: center;
 }
 
@@ -304,7 +352,9 @@ $svg_minw: 0;
     width: 85%;
     min-width: $svg_minw;
     margin: 0 auto;
-    columns: $num_svg;
+
+    @include comp(columns, $num_svg);
+    @include mobile(columns, 1);
 
     $sht_dur: 0.4s; // Duration
     @mixin svg_hover_transition($option) {
@@ -434,7 +484,7 @@ $svg_minw: 0;
     height: $height;
     left: half($width);
     top: half($height);
-    position: absolute;
+    // position: absolute;
     min-width: $svg_minw;
 }
 
@@ -476,13 +526,15 @@ $svg_minw: 0;
         padding: 2em;
         padding-bottom: 0;
 
-        font: $helv-light;
+        @include comp(font, $helv-light);
+        @include mobile(font, $m-helv-light);
 
         .h1 {
-            font: $helv-ultra-light;
-            font-size: $fsize * 4;
+            @include comp(font, $helv-ultra-light);
+            @include mobile(font, $m-helv-ultra-light);
+            @include mobile_fsize(font-size, 4);
             text-align: center;
-            margin-bottom: $fsize;
+            @include mobile_fsize(margin-bottom, 1);
         }
     }
 }
