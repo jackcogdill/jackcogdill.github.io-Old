@@ -1,3 +1,4 @@
 .DS_Store
 css/.sass-cache/*
 css/*.map
+css/_style.css
