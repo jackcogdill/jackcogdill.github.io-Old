@@ -64,7 +64,7 @@ $bgh_per: $bgh + 0%;
 // Background width (must be used in a calc())
 $bgw: #{$bgh_vh * $imgW / $imgH};
 
-.behind-outer-background {
+.outer-background {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -73,7 +73,7 @@ $bgw: #{$bgh_vh * $imgW / $imgH};
     background: url('../images/green-fibers.png') repeat;
 }
 
-.outer-background {
+.outer-shadow {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -104,16 +104,6 @@ $bgw: #{$bgh_vh * $imgW / $imgH};
         width: $size;
     }
 }
-
-.background {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: -1;
-
-    background: url('../images/back.jpg') no-repeat top center fixed;
-    background-size: auto $bgh_per;
-}
 // ===============================================
 
 .wrap {
@@ -124,9 +114,17 @@ $bgw: #{$bgh_vh * $imgW / $imgH};
     overflow-y: scroll;
 }
 
+.background {
+    width: 100%;
+    height: $bgh_per;
+    z-index: -1;
+
+    background: url('../images/back.jpg') no-repeat top center fixed;
+    background-size: auto $bgh_per;
+}
+
 .content-outer {
     display: inline-block;
-    margin-top: $bgh_vh;
     width: 100%;
     max-width: calc(#{$bgw});
     box-sizing: border-box;
