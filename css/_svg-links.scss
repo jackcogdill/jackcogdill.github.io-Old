@@ -1,0 +1,152 @@
+$num_svg: 4; // Number of svg links
+
+@import 'util';
+
+$sht_dur: 0.4s; // Duration
+@mixin svg_hover_transition($option) {
+    transition: $option $sht_dur ease;
+}
+
+@mixin svg-links($default, $hover_border, $hover_text, $font_family...) {
+    .svg-container {
+        $svg: 4em;
+        $svg_cntr: $svg * 3 / 2;
+        $svg_marg: $svg / 2;
+
+        // SVG border size
+        $svgb_size: 1px;
+        $svgb_radius: 0.3em; // Border radius
+        // SVG hover border color
+
+        // Arrow border color
+        $arb_color: $hover_border;
+        $arrow_bg: $hover_border;
+
+        // Triangle size
+        $tsize: $svg / 5.7;
+        $tborder_size: $svgb_size;
+        $toffset: round($tborder_size * 1.41421); // sqrt(2) ~ 1.41421
+        $toffset: px_to_em($toffset);
+        $tsize_outer: $tsize + $toffset;
+
+        // margin: 0 auto;
+
+        columns: $num_svg em_to_px($svg_cntr);
+        column-gap: em_to_px($svg / 2);
+
+        .arrow {
+            display: block;
+            position: relative;
+            margin-top: $tsize_outer;
+            border: $tborder_size solid $arb_color;
+            font-size: 1.1em;
+
+            // &::before, &::after {
+            &::after {
+                content: '';
+                display: block;
+                position: absolute;
+                bottom: 100%;
+                left: 50%;
+                height: 0;
+                width: 0;
+                border: solid transparent;
+            }
+
+            &::after {
+                border-bottom-color: $arrow_bg;
+                border-width: $tsize;
+                margin-left: -$tsize;
+            }
+
+            // For border on triangle
+            // ========================
+            // &::before {
+            //     border-bottom-color: #FFF;
+            //     border-width: $tsize_outer;
+            //     margin-left: -$tsize_outer;
+            // }
+        }
+
+        > div {
+            height: $svg_cntr * 1.5;
+
+            > a {
+                margin: 0 auto;
+
+                width:  $svg_cntr;
+                min-height: $svg_cntr;
+                display: block;
+
+                border: $svgb_size solid $default;
+                border-radius: $svgb_radius;
+                @include svg_hover_transition(border-color);
+
+                text-decoration: none;
+
+                > svg {
+                    display: block;
+                    height: $svg;
+                    margin: ( $svg_marg / 2 ) auto 0;
+                    fill: $default;
+                    @include svg_hover_transition(fill);
+
+                    > text {
+                        user-select: none;
+                    }
+                }
+
+                > .arrow-wrap {
+                    position: relative;
+                    margin-top: $svg_marg / 3;
+
+                    max-height: 0;
+                    overflow-y: hidden;
+                    transition: max-height 0.2s ease;
+
+                    > .arrow {
+                        z-index: 1;
+                        border-bottom-left-radius: $svgb_radius / 2;
+                        border-bottom-right-radius: $svgb_radius / 2;
+                        padding: 0.3em 0;
+                        background-color: $arrow_bg;
+                        color: $hover_text;
+
+                        text-align: center;
+                        font-family: $font_family;
+
+                        // border: $tborder_size solid $hover_border;
+
+                        border-color: $arb_color transparent transparent;
+                        border-width: $tborder_size 0 0;
+
+                        // Slide up the arrow when hover, slide down by default
+                        &::after {
+                            margin-bottom: -$tsize + $toffset * 2;
+                            transition: margin-bottom 0.2s ease;
+                        }
+                    }
+                }
+
+                &:hover {
+                    background: none;
+                    border-color: $hover_border;
+
+                    > svg {
+                        fill: $hover_border;
+                    }
+
+                    > .arrow-wrap {
+                        max-height: 100%;
+                        transition: max-height 0.8s ease-in-out;
+
+                        > .arrow::after {
+                            margin-bottom: 0;
+                            transition: margin-bottom $sht_dur ease-in;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
