@@ -7,3 +7,27 @@
 @function em_to_px($ems) {
     @return ($ems / 1em) * $root-fsize;
 }
+
+@mixin mobile($left, $right...) {
+    @media (min-width: 320px) {
+        #{$left}: $right;
+    }
+}
+
+@mixin tablet($left, $right...) {
+    @media (min-width: 961px) {
+        #{$left}: $right;
+    }
+}
+
+@mixin desktop($left, $right...) {
+    @media (min-width: 1280px) {
+        #{$left}: $right;
+    }
+}
+
+@mixin all_devices($left, $mobile, $tablet, $desktop) {
+    @include mobile($left, $mobile);
+    @include tablet($left, $tablet);
+    @include desktop($left, $desktop);
+}
