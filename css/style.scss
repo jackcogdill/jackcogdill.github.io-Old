@@ -111,16 +111,16 @@ $bgh_per: $bgh + 0%;
 // Background width in vh's
 $bgwvh: #{$bgh_vh * $imgW / $imgH};
 
-.behind-outer-background {
+.outer-background {
     width: 100%;
     height: 100%;
     position: absolute;
-    z-index: -3;
+    z-index: -2;
 
     background: url('../images/wood_1.png') repeat;
 }
 
-.outer-background {
+.outer-shadow {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -128,7 +128,7 @@ $bgwvh: #{$bgh_vh * $imgW / $imgH};
     left: 0;
     right: 0;
     margin: 0 auto;
-    z-index: -2;
+    z-index: -1;
 
     $size: 5rem;
 
@@ -160,12 +160,10 @@ $bgwvh: #{$bgh_vh * $imgW / $imgH};
 
 .background {
     width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: -1;
+    height: $bgh_per;
 
-    background: url('../images/back.jpg') no-repeat top center fixed;
-    background-size: auto $bgh_per;
+    background: url('../images/back.jpg') no-repeat top center scroll;
+    background-size: auto 100%;
 }
 // ===============================================
 
@@ -179,7 +177,6 @@ $bgwvh: #{$bgh_vh * $imgW / $imgH};
 
 .content-outer {
     display: inline-block;
-    margin-top: $bgh_vh;
     width: 100%;
     max-width: $bgwvh;
     box-sizing: border-box;
