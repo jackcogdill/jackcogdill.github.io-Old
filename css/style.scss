@@ -83,45 +83,46 @@ $bgh_per: $bgh + 0%;
     width: 100%;
     min-height: 100%;
     text-align: center;
-
-    $pad_side: 5rem;
-
-    > .content-outer {
-        display: inline-block;
-        margin-top: $bgh_vh;
-        width: 100%;
-        max-width: calc(#{$bgh_vh * $imgW / $imgH});
-        box-sizing: border-box;
-        min-height: 100vh - $bgh_vh;
-
-        background-color: $light;
-
-        > .content {
-            display: flex;
-            flex-direction: column;
-
-            > .content-inside {
-                flex: 1 0 auto;
-                padding: 2rem $pad_side;
-
-                .header {
-                    @extend .thin-font;
-                    font-size: 4rem;
-                    padding-bottom: 0.5em;
-                }
-
-                .intro {
-                    font-size: 1.5rem;
-                    text-align: left;
-                    line-height: 1.5em;
-                }
-            }
-
-            > .footer {
-                padding: 0 $pad_side;
-                font-size: 0.7rem;
-                @include svg-links($dark, $link, $light, $font_family);
-            }
-        }
-    }
 }
+
+.content-outer {
+    display: inline-block;
+    margin-top: $bgh_vh;
+    width: 100%;
+    max-width: calc(#{$bgh_vh * $imgW / $imgH});
+    box-sizing: border-box;
+    min-height: 100vh - $bgh_vh;
+
+    background-color: $light;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
+$pad_side: 5rem;
+
+.content-inside {
+    flex: 1 0 auto;
+    padding: 2rem $pad_side;
+}
+
+.header {
+    @extend .thin-font;
+    font-size: 4rem;
+    padding-bottom: 0.5em;
+}
+
+.intro {
+    font-size: 1.5rem;
+    text-align: left;
+    line-height: 1.5em;
+}
+
+.footer {
+    padding: 0 $pad_side;
+    font-size: 0.7rem;
+}
+
+@include svg-links($dark, $link, $light, $font_family);

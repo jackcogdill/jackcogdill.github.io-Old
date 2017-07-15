@@ -2,11 +2,6 @@ $num_svg: 4; // Number of svg links
 
 @import 'util';
 
-$sht_dur: 0.4s; // Duration
-@mixin svg_hover_transition($option) {
-    transition: $option $sht_dur ease;
-}
-
 @mixin svg-links($default, $hover_border, $hover_text, $font_family...) {
     .svg-container {
         $svg: 4em;
@@ -80,11 +75,12 @@ $sht_dur: 0.4s; // Duration
 
                 width:  $svg_cntr;
                 min-height: $svg_cntr;
+                height: auto;
                 display: block;
 
                 border: $svgb_size solid $default;
                 border-radius: $svgb_radius;
-                @include svg_hover_transition(border-color);
+                transition: border-color 0.2s ease;
 
                 text-decoration: none;
 
@@ -93,7 +89,7 @@ $sht_dur: 0.4s; // Duration
                     height: $svg;
                     margin: ( $svg_marg / 2 ) auto 0;
                     fill: $default;
-                    @include svg_hover_transition(fill);
+                    transition: fill 0.2s ease;
 
                     > text {
                         user-select: none;
@@ -104,9 +100,10 @@ $sht_dur: 0.4s; // Duration
                     position: relative;
                     margin-top: $svg_marg / 3;
 
-                    max-height: 0;
                     overflow-y: hidden;
-                    transition: max-height 0.2s ease;
+                    height: auto;
+                    max-height: 0;
+                    transition: max-height 0.1s ease;
                 }
 
                 > .arrow-wrap > .arrow {
@@ -142,12 +139,13 @@ $sht_dur: 0.4s; // Duration
                 }
 
                 > .arrow-wrap {
-                    max-height: 100%;
-                    transition: max-height 0.8s ease-in-out;
+                    height: auto;
+                    max-height: $svg;
+                    transition: max-height 0.2s ease-in-out;
 
                     > .arrow::after {
                         margin-bottom: 0;
-                        transition: margin-bottom $sht_dur ease-in;
+                        transition: margin-bottom 0.2s ease-in;
                     }
                 }
             }
