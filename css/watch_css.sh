@@ -19,4 +19,6 @@ sass -t compressed --watch "$sassfile":"$intermed" &\
 trap - SIGINT
 
 # Done with intermediate file
-rm "$intermed"
+if [ -f "$intermed" ]; then
+    rm "$intermed"
+fi
