@@ -21,7 +21,7 @@ $font_family: 'Montserrat', sans-serif;
 // Colors
 $light: #FCFCFC;
 $dark: #111517;
-$link: #16AF47;
+$link: #FFBF00;
 $white: #FFF;
 
 html, body {
@@ -56,9 +56,7 @@ a {
     position: absolute;
     z-index: -2;
 
-    background: url('../images/back.jpg') no-repeat top center fixed;
-    background-size: cover;
-    filter: blur(2em);
+    background: url('../images/green-fibers.png') repeat;
 }
 
 $imgW: 3264;
