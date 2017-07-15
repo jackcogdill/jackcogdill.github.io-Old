@@ -6,3 +6,11 @@ Source code for [jackcogdill.us](http://jackcogdill.us/).
 
 Written by Jack Cogdill and licensed with [GPLv3](https://www.gnu.org/licenses/gpl.html).  
 SVGs lovingly used from [GitHub](https://octicons.github.com/).
+
+## Todo
+
+- On mobile show (hamburger type?) menu for quick links that scroll to that section
+    - Contact
+    - About
+    - Projects
+- Add projects section
