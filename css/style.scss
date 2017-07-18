@@ -53,11 +53,11 @@ a {
 
 // Background
 // ===============================================
-$imgW: 3264;
-$imgH: 955;
+$imgW: 4032;
+$imgH: 1956;
 
 // Background height
-$bgh: 45;
+$bgh: 60;
 $bgh_vh: $bgh + 0vh;
 $bgh_per: $bgh + 0%;
 
@@ -166,12 +166,7 @@ $pad_side: 5rem;
 
 .footer {
     padding: 0 $pad_side 1em;
-    @include all_devices(
-        font-size,
-        1.75rem,
-        1.5rem,
-        1rem
-    );
+    font-size: 1rem;
 }
 
-@include svg-links($dark, $link, $light, $font_family);
+@include svg-links($dark, $link, $dark, $font_family);

@@ -9,7 +9,7 @@
 }
 
 @mixin mobile($left, $right...) {
-    @media (min-width: 320px) {
+    @media (max-width: 960px) {
         #{$left}: $right;
     }
 }
