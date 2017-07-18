@@ -70,7 +70,7 @@ $bgw: #{$bgh_vh * $imgW / $imgH};
     position: absolute;
     z-index: -3;
 
-    background: url('../images/green-fibers.png') repeat;
+    background: url('../images/wood_1.png') repeat;
 }
 
 .outer-background {
@@ -133,6 +133,7 @@ $bgw: #{$bgh_vh * $imgW / $imgH};
     min-height: 100vh - $bgh_vh;
 
     background-color: $light;
+    border-top: 0.3rem solid $link;
 }
 
 .content {

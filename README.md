@@ -5,7 +5,7 @@ Source code for [jackcogdill.us](http://jackcogdill.us/).
 ## License and credits
 
 Written by Jack Cogdill and licensed with [GPLv3](https://www.gnu.org/licenses/gpl.html).  
-SVGs lovingly used from [GitHub](https://octicons.github.com/).
+SVGs lovingly used from [GitHub](https://octicons.github.com/) as well as wallpapers from [Subtle Patterns](https://www.toptal.com/designers/subtlepatterns/).
 
 ## Todo
 
