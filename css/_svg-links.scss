@@ -148,7 +148,7 @@ $num_svg: 4; // Number of svg links
 
                 > .arrow-wrap {
                     height: auto;
-                    max-height: $svg;
+                    max-height: $svg * 1.5;
                     transition: max-height 0.2s ease-in-out;
 
                     > .arrow::after {
