@@ -1,0 +1,15 @@
+@mixin japanese($family, $url) {
+    @font-face {
+        font-family: $family;
+        src: url($url);
+
+        // Japanese unicode ranges
+        // U+3000-303f : Japanese-style punctuation
+        // U+3040-309f : Hiragana
+        // U+30a0-30ff : Katakana
+        // U+ff00-ffef : Full-width roman characters and half-width katakana
+        // U+4e00-9faf : CJK unifed ideographs - Common and uncommon kanji
+
+        unicode-range: U+3000-303f, U+3040-309f, U+30a0-30ff, U+ff00-ffef, U+4e00-9faf;
+    }
+}

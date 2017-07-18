@@ -3,10 +3,16 @@
 // - Then use entr to watch for changes in _styles.css and execute postcss to handle vendor prefixes
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:100,300');
-$font_family: 'Montserrat', sans-serif;
+@import 'jp';
+$jp_light: 'RoundedMplus1c-Light';
+$jp_thin: 'RoundedMplus1c-Thin';
+@include japanese($jp_light, '../fonts/RoundedMplus1c-Light.ttf');
+@include japanese($jp_thin, '../fonts/RoundedMplus1c-Thin.ttf');
+
+$font_family: 'RoundedMplus1c-Thin', 'Montserrat', sans-serif;
 
 .light-font {
-    font-family: $font_family;
+    font-family: 'RoundedMplus1c-Light', 'Montserrat', sans-serif;
     font-weight: 300;
 }
 
