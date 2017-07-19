@@ -2,7 +2,7 @@ $num_svg: 4; // Number of svg links
 
 @import 'util';
 
-@mixin svg-links($default, $hover_border, $hover_text, $font_family...) {
+@mixin svg-links($default, $hover_border, $hover_text, $mobile_em, $font_family...) {
     .svg-container {
         $svg: 4em;
         $svg_cntr: $svg * 3 / 2;
@@ -32,13 +32,9 @@ $num_svg: 4; // Number of svg links
 
         @include all_devices(
             columns,
-            2 $colw,
-            $num_svg $colw,
-            $num_svg $colw);
-
-        // @include mobile(min-width, 2 * ($svg_cntr + $gap));
-        // @include tablet(min-width, 2 * ($svg_cntr + $gap));
-        // @include desktop(min-width, $num_svg * ($svg_cntr + $gap));
+            2 em_to_px($svg_cntr, $mobile_em),
+            $num_svg);
+        @include short(columns, 2 $colw);
 
         .arrow {
             display: block;

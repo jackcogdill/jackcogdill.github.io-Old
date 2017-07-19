@@ -4,30 +4,35 @@
     @return ($pxs / $root-fsize) + 0em;
 }
 
-@function em_to_px($ems) {
-    @return ($ems / 1em) * $root-fsize;
+@function em_to_px($ems, $emsize:'') {
+    @if $emsize == '' {
+        $emsize: 1;
+    }
+    @return ($ems * $emsize / 1em) * $root-fsize;
 }
 
 @mixin mobile($left, $right...) {
     @media (max-width: 960px) {
         #{$left}: $right;
     }
+    @media (min-device-pixel-ratio: 2) and (max-width: 960px) {
+        #{$left}: $right;
+    }
 }
 
-@mixin tablet($left, $right...) {
-    @media (min-width: 961px) and (min-height: 480px) {
+@mixin short($left, $right...) {
+    @media (max-height: 600px) {
         #{$left}: $right;
     }
 }
 
 @mixin desktop($left, $right...) {
-    @media (min-width: 1280px) and (min-height: 600px) {
+    @media (min-width: 961px) {
         #{$left}: $right;
     }
 }
 
-@mixin all_devices($left, $mobile, $tablet, $desktop) {
+@mixin all_devices($left, $mobile, $desktop) {
     @include mobile($left, $mobile);
-    @include tablet($left, $tablet);
     @include desktop($left, $desktop);
 }
