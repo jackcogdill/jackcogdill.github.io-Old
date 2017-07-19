@@ -203,7 +203,7 @@ $pad_side: 5rem;
     @include all_devices(
         font-size,
         3em,
-        5em);
+        4em);
     padding-bottom: 0.5em;
 }
 
@@ -218,6 +218,7 @@ $pad_side: 5rem;
     font-size: 0.75em;
 
     .return {
+        font-size: 1.33em;
         float: right;
     }
 }
