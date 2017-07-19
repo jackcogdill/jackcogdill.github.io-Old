@@ -41,7 +41,6 @@ html, body {
     font-size: $root-fsize;
     @extend .light-font;
     color: $dark;
-    overflow: hidden;
 }
 
 a {
@@ -109,7 +108,7 @@ $bgh_vh: $bgh + 0vh;
 $bgh_per: $bgh + 0%;
 
 // Background width in vh's
-$bgwvh: #{$bgh_vh * $imgW / $imgH};
+$bgw_vh: #{$bgh_vh * $imgW / $imgH};
 
 .outer-background {
     width: 100%;
@@ -124,7 +123,7 @@ $bgwvh: #{$bgh_vh * $imgW / $imgH};
     position: absolute;
     height: 100%;
     width: 100%;
-    max-width: $bgwvh;
+    max-width: $bgw_vh;
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -160,7 +159,7 @@ $bgwvh: #{$bgh_vh * $imgW / $imgH};
 
 .background {
     width: 100%;
-    height: $bgh_per;
+    height: $bgh_vh;
 
     background: url('../images/back.jpg') no-repeat top center scroll;
     background-size: auto 100%;
@@ -169,16 +168,16 @@ $bgwvh: #{$bgh_vh * $imgW / $imgH};
 
 .wrap {
     width: 100%;
-    height: 100%;
-    text-align: center;
-    position: fixed;
+    min-height: 100%;
+    position: relative;
     overflow-y: scroll;
+    text-align: center;
 }
 
 .content-outer {
     display: inline-block;
     width: 100%;
-    max-width: $bgwvh;
+    max-width: $bgw_vh;
     box-sizing: border-box;
     min-height: 100vh - $bgh_vh;
 
