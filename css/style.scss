@@ -108,8 +108,8 @@ $bgh: 60;
 $bgh_vh: $bgh + 0vh;
 $bgh_per: $bgh + 0%;
 
-// Background width (must be used in a calc())
-$bgw: #{$bgh_vh * $imgW / $imgH};
+// Background width in vh's
+$bgwvh: #{$bgh_vh * $imgW / $imgH};
 
 .behind-outer-background {
     width: 100%;
@@ -124,13 +124,17 @@ $bgw: #{$bgh_vh * $imgW / $imgH};
     position: absolute;
     height: 100%;
     width: 100%;
-    max-width: calc(#{$bgw});
+    max-width: $bgwvh;
     left: 0;
     right: 0;
     margin: 0 auto;
     z-index: -2;
 
     $size: 5rem;
+
+    @mixin hide-when-cutoff {
+        @include mobile(display, none);
+    }
 
     &:before {
         box-shadow: -#{$size} 0 $size -#{$size} rgba(0, 0, 0, 0.5) inset;
@@ -140,6 +144,7 @@ $bgw: #{$bgh_vh * $imgW / $imgH};
         position: absolute;
         top: 0;
         width: $size;
+        @include hide-when-cutoff;
     }
 
     &:after {
@@ -149,6 +154,7 @@ $bgw: #{$bgh_vh * $imgW / $imgH};
         position: absolute;
         right: -#{$size};
         width: $size;
+        @include hide-when-cutoff;
     }
 }
 
@@ -175,7 +181,7 @@ $bgw: #{$bgh_vh * $imgW / $imgH};
     display: inline-block;
     margin-top: $bgh_vh;
     width: 100%;
-    max-width: calc(#{$bgw});
+    max-width: $bgwvh;
     box-sizing: border-box;
     min-height: 100vh - $bgh_vh;
 
@@ -197,31 +203,26 @@ $pad_side: 5rem;
 
 .header {
     @extend .thin-font;
-    font-size: 4rem;
+    @include all_devices(
+        font-size,
+        3em,
+        5em);
     padding-bottom: 0.5em;
 }
 
 .intro {
-    @include all_devices(
-        font-size,
-        2.5rem,
-        1.5rem
-    );
+    font-size: 1.5em;
     text-align: left;
     line-height: 1.5em;
 }
 
 .footer {
     padding: 0 $pad_side 1em;
-    @include all_devices(
-        font-size,
-        1.5em,
-        1em
-    );
+    font-size: 0.75em;
 
     .return {
         float: right;
     }
 }
 
-@include svg-links($dark, $link, $dark, 1.5, $font_family);
+@include svg-links($dark, $link, $dark, 0.75, $font_family);
