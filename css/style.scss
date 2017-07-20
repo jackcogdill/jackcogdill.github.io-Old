@@ -78,54 +78,7 @@ $bgh_vh: $bgh + 0vh;
 $bgh_per: $bgh + 0%;
 
 // Background width in vh's
-$bgw_vh: #{$bgh_vh * $imgW / $imgH};
-
-.outer-background {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: -2;
-
-    background: url('../images/wood_1.png') repeat;
-}
-
-.outer-shadow {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    max-width: $bgw_vh;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    z-index: -1;
-
-    $size: 5rem;
-
-    @mixin hide-when-cutoff {
-        @include mobile(display, none);
-    }
-
-    &:before {
-        box-shadow: -#{$size} 0 $size -#{$size} rgba(0, 0, 0, 0.5) inset;
-        content: '';
-        height: 100%;
-        left: -#{$size};
-        position: absolute;
-        top: 0;
-        width: $size;
-        @include hide-when-cutoff;
-    }
-
-    &:after {
-        box-shadow: $size 0 $size -#{$size} rgba(0, 0, 0, 0.5) inset;
-        content: '';
-        height: 100%;
-        position: absolute;
-        right: -#{$size};
-        width: $size;
-        @include hide-when-cutoff;
-    }
-}
+$bgw_vh: $bgh_vh * $imgW / $imgH;
 
 .background {
     width: 100%;
@@ -141,6 +94,14 @@ $bgw_vh: #{$bgh_vh * $imgW / $imgH};
     min-height: 100%;
     position: relative;
     text-align: center;
+    background: url('../images/wood_1.png') repeat;
+}
+
+.inner-wrap {
+    width: fit-content;
+    margin: 0 auto;
+    $size: 5rem;
+    box-shadow: 0 0 $size 1rem rgba(0, 0, 0, 0.5);
 }
 
 .content-outer {
