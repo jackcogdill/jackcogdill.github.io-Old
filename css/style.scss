@@ -33,6 +33,11 @@ $link: #FFBF00;
 $alternate: #00C0FF;
 $white: #FFF;
 
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 html, body {
     margin: 0;
     padding: 0;
