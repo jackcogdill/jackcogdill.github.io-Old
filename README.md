@@ -14,3 +14,4 @@ SVGs lovingly used from [GitHub](https://octicons.github.com/) as well as wallpa
     - About
     - Projects
 - Add projects section
+- Add google analytics
