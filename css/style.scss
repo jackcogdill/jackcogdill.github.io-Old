@@ -98,7 +98,11 @@ $m_bgw_vh: $m_bgh_vh * $imgW / $imgH;
 
 .background {
     width: 100%;
-    @include all_devices(height, $m_bgh_vh, $bgh_vh);
+    @include all_devices(
+        height,
+        $m_bgh_vh,
+        $m_bgh_vh,
+        $bgh_vh);
 
     background: url('../images/back.jpg') no-repeat bottom center scroll;
     background-size: cover;
@@ -123,9 +127,17 @@ $m_bgw_vh: $m_bgh_vh * $imgW / $imgH;
 .content-outer {
     display: inline-block;
     width: 100%;
-    @include all_devices(max-width, $m_bgw_vh, $bgw_vh * 1.5);
     box-sizing: border-box;
-    @include all_devices(min-height, 100vh - $m_bgh_vh, 100vh - $bgh_vh);
+    @include all_devices(
+        max-width,
+        $m_bgw_vh,
+        $bgw_vh * 1.5,
+        $bgw_vh * 1.5);
+    @include all_devices(
+        min-height,
+        100vh - $m_bgh_vh,
+        100vh - $m_bgh_vh,
+        100vh - $bgh_vh);
 
     background-color: $light;
     border-top: 0.3rem solid $link;
@@ -146,12 +158,20 @@ $pad_side: 4rem;
 
 .header {
     @extend .thin-font;
-    font-size: 3em;
     padding-bottom: 0.5em;
+    @include all_devices(
+        font-size,
+        2.5em,
+        2.5em,
+        3em);
 }
 
 .intro {
-    font-size: 1.5em;
+    @include all_devices(
+        font-size,
+        1.25em,
+        1.25em,
+        1.5em);
     text-align: left;
     line-height: 1.5em;
 }

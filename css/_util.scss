@@ -24,12 +24,13 @@
 }
 
 @mixin desktop($left, $right...) {
-    @media (min-width: 961px) {
+    @media (min-height: 601px) and (min-width: 961px) {
         #{$left}: $right;
     }
 }
 
-@mixin all_devices($left, $mobile, $desktop) {
+@mixin all_devices($left, $mobile, $short, $desktop) {
     @include mobile($left, $mobile);
+    @include short($left, $short);
     @include desktop($left, $desktop);
 }
