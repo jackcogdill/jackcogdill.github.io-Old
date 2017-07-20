@@ -23,6 +23,11 @@ $font_family: $jp_light, $main_font, sans-serif;
     font-weight: 100;
 }
 
+// Word wrap for Japanese
+.ww {
+    display: inline-block;
+}
+
 @import 'root-fsize';
 @import 'svg-links';
 
