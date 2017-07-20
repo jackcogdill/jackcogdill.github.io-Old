@@ -62,36 +62,6 @@ a {
     }
 }
 
-.transform-japanese {
-    position: relative;
-    color: $alternate;
-
-    &:after {
-        position: absolute;
-        left: 0;
-        width: 100%;
-
-        content: '日本語';
-        text-align: center;
-        color: $light;
-
-        // Prevent flash of rendering content on hover (messes with rest of text)
-        visibility: hidden;
-    }
-
-    &:hover {
-        cursor: pointer;
-
-        background-color: $alternate;
-        color: transparent;
-        transition: background-color 0.4s ease;
-
-        &:after {
-            visibility: visible;
-        }
-    }
-}
-
 ::selection {
     background: $link;
     color: $white;
