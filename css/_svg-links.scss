@@ -25,7 +25,7 @@ $num_svg: 4; // Number of svg links
         $tsize_outer: $tsize + $toffset;
 
         $gap: $svg / 2;
-        $colw: em_to_px($svg_cntr, $ems);
+        $colw: em_to_px($svg_cntr * $ems);
 
         columns: $num_svg $colw;
         column-gap: em_to_px($gap);
@@ -35,6 +35,9 @@ $num_svg: 4; // Number of svg links
             2 $colw,
             $num_svg);
         @include short(columns, 2 $colw);
+
+        max-width: ($gap * ($num_svg - 1)) * 4 + $svg_cntr * $num_svg;
+        margin: 0 auto;
 
         .arrow {
             display: block;

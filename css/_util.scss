@@ -4,11 +4,8 @@
     @return ($pxs / $root-fsize) + 0em;
 }
 
-@function em_to_px($ems, $emsize:'') {
-    @if $emsize == '' {
-        $emsize: 1;
-    }
-    @return ($ems * $emsize / 1em) * $root-fsize;
+@function em_to_px($ems) {
+    @return ($ems / 1em) * $root-fsize;
 }
 
 @mixin mobile($left, $right...) {

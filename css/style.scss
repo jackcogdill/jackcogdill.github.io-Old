@@ -186,6 +186,7 @@ $bgw_vh: #{$bgh_vh * $imgW / $imgH};
 }
 
 .content {
+    min-height: inherit;
     display: flex;
     flex-direction: column;
 }
