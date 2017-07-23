@@ -187,19 +187,13 @@ $pad_side: 4rem;
         0 ($pad_side / 2) 1em,
         0 $pad_side 1em);
 
-    @media (max-width: 960px) {
-        font-size: 0.4em;
-        @include svg-links($dark, $link, $dark, 0.4, $font_family);
-    }
-    @media (min-device-pixel-ratio: 2) and (max-width: 960px) {
-        font-size: 0.4em;
-        @include svg-links($dark, $link, $dark, 0.4, $font_family);
-    }
+    @include all_devices(
+        font-size,
+        0.5em,
+        0.5em,
+        0.75em);
 
-    @media (min-height: 601px) and (min-width: 961px) {
-        font-size: 0.75em;
-        @include svg-links($dark, $link, $dark, 0.75, $font_family);
-    }
+    @include svg-links($dark, $link, $dark, $font_family);
 
     .return {
         font-size: 1.33em;

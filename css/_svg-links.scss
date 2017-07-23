@@ -2,7 +2,7 @@ $num_svg: 4; // Number of svg links
 
 @import 'util';
 
-@mixin svg-links($default, $hover_border, $hover_text, $ems, $font_family...) {
+@mixin svg-links($default, $hover_border, $hover_text, $font_family...) {
     .svg-container {
         $svg: 4em;
         $svg_cntr: $svg * 3 / 2;
@@ -25,18 +25,9 @@ $num_svg: 4; // Number of svg links
         $tsize_outer: $tsize + $toffset;
 
         $gap: $svg / 2;
-        $colw: em_to_px($svg_cntr * $ems);
-
-        columns: $num_svg $colw;
-        column-gap: em_to_px($gap);
-
-        // @include all_devices(
-        //     columns,
-        //     2 $colw,
-        //     2 $colw,
-        //     $num_svg);
-
-        columns: $num_svg;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
 
         max-width: ($gap * ($num_svg - 1)) * 4 + $svg_cntr * $num_svg;
         margin: 0 auto;
