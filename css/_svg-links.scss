@@ -30,11 +30,13 @@ $num_svg: 4; // Number of svg links
         columns: $num_svg $colw;
         column-gap: em_to_px($gap);
 
-        @include all_devices(
-            columns,
-            2 $colw,
-            2 $colw,
-            $num_svg);
+        // @include all_devices(
+        //     columns,
+        //     2 $colw,
+        //     2 $colw,
+        //     $num_svg);
+
+        columns: $num_svg;
 
         max-width: ($gap * ($num_svg - 1)) * 4 + $svg_cntr * $num_svg;
         margin: 0 auto;

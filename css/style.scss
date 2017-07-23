@@ -87,7 +87,7 @@ $bgh: 45;
 $bgh_vh: $bgh + 0vh;
 $bgh_per: $bgh + 0%;
 // Mobile
-$m_bgh: 40;
+$m_bgh: 35;
 $m_bgh_vh: $m_bgh + 0vh;
 $m_bgh_per: $m_bgh + 0%;
 
@@ -153,7 +153,11 @@ $pad_side: 4rem;
 
 .content-inside {
     flex: 1 0 auto;
-    padding: 2rem $pad_side;
+    @include all_devices(
+        padding,
+        2rem ($pad_side / 2),
+        2rem ($pad_side / 2),
+        2rem $pad_side);
 }
 
 .header {
@@ -161,29 +165,44 @@ $pad_side: 4rem;
     padding-bottom: 0.5em;
     @include all_devices(
         font-size,
-        2.5em,
-        2.5em,
+        2em,
+        2em,
         3em);
 }
 
 .intro {
     @include all_devices(
         font-size,
-        1.25em,
-        1.25em,
+        1em,
+        1em,
         1.5em);
     text-align: left;
     line-height: 1.5em;
 }
 
 .footer {
-    padding: 0 $pad_side 1em;
-    font-size: 0.75em;
+    @include all_devices(
+        padding,
+        0 ($pad_side / 2) 1em,
+        0 ($pad_side / 2) 1em,
+        0 $pad_side 1em);
+
+    @media (max-width: 960px) {
+        font-size: 0.4em;
+        @include svg-links($dark, $link, $dark, 0.4, $font_family);
+    }
+    @media (min-device-pixel-ratio: 2) and (max-width: 960px) {
+        font-size: 0.4em;
+        @include svg-links($dark, $link, $dark, 0.4, $font_family);
+    }
+
+    @media (min-height: 601px) and (min-width: 961px) {
+        font-size: 0.75em;
+        @include svg-links($dark, $link, $dark, 0.75, $font_family);
+    }
 
     .return {
         font-size: 1.33em;
         float: right;
     }
 }
-
-@include svg-links($dark, $link, $dark, 0.75, $font_family);
