@@ -25,7 +25,7 @@ function ease(ifun, callback, max=100, init=100, mind=16.67, ex=Math.E, div=30) 
     var timeout = setTimeout(wait, delay);
 }
 
-function setup_canvas() {
+function setUp() {
     window.w = canvas.width  = window.innerWidth;
     window.h = canvas.height = window.innerHeight;
     window.ctx = canvas.getContext('2d');
@@ -361,29 +361,8 @@ function complete_page() {
     wrap.style.maxHeight = 'none';
 }
 
-function enter() {
-    var elem = document.getElementById('enter-text');
-    elem.outerHTML = ''; // Remove the element from the document
-
-    var text = 'JACK COGDILL // WELCOME';
+(() => {
+    setUp();
+    const text = 'JACK COGDILL // WELCOME';
     rain(text, complete_page);
-}
-
-window.onload = function () {
-    setup_canvas();
-
-    // User touched screen on mobile
-    window.addEventListener('touchstart', activate_enter, false);
-
-    // User pressed a key
-    document.onkeydown = function(event) {
-        activate_enter(event);
-    };
-
-    function activate_enter(event) {
-        event.preventDefault();
-        document.onkeydown = null;
-        window.removeEventListener('touchstart', activate_enter, false);
-        enter();
-    }
-};
+})();
