@@ -1,8 +1,3 @@
-// Use watch_css.sh to:
-// - Watch for changes in style.scss and generate _styles.css
-// - Then use entr to watch for changes in _styles.css and execute postcss to handle vendor prefixes
-
-
 @import url('https://fonts.googleapis.com/css?family=Anonymous+Pro');
 $font: 'Anonymous Pro', monospace;
 $fsize: 1.1rem;
@@ -216,7 +211,7 @@ $et_fsize: $fsize * 1.3;
 
     overflow-y: scroll;
 
-    background: url('../../images/black_denim.png');
+    background: url('../images/black_denim.png');
 
     z-index: -1;
     opacity: 0;

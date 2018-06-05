@@ -1,0 +1,176 @@
+@import url(https://fonts.googleapis.com/css?family=Anonymous+Pro);
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  color: #D2D9E0;
+  font-family: "Anonymous Pro", monospace; }
+
+::-moz-selection {
+  background: #2FD26C;
+  color: #FFF; }
+
+::selection {
+  background: #2FD26C;
+  color: #FFF; }
+
+::-moz-selection {
+  background: #2FD26C;
+  color: #FFF; }
+
+a {
+  text-decoration: none;
+  color: #2FD26C;
+  transition: color 0.4s ease, background-color 0.4s ease; }
+  a:hover {
+    color: #121920;
+    background-color: #2FD26C; }
+
+.vert-center-wrap {
+  display: block;
+  position: absolute;
+  bottom: 50%;
+  width: 100%;
+  z-index: 1338; }
+
+#wrap {
+  min-width: 100%;
+  min-height: 100%;
+  position: relative;
+  overflow-y: scroll;
+  background: url(images/black_denim.png);
+  z-index: -1;
+  opacity: 0;
+  max-height: 0; }
+
+#canvas {
+  position: absolute;
+  display: block;
+  z-index: 1337;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  opacity: 1;
+  transition: opacity 1.4s ease-in-out; }
+
+#footer {
+  height: 10em;
+  margin-top: -10em;
+  color: #2A742A;
+  font-size: 0.73333rem;
+  text-align: center; }
+
+.svg-container {
+  width: 85%;
+  min-width: 28em;
+  margin: 0 auto;
+  columns: 4; }
+  .svg-container .arrow {
+    display: block;
+    position: relative;
+    margin-top: 0.76425em;
+    border: 1px solid #2FD26C;
+    font-size: 1.1em; }
+    .svg-container .arrow::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      height: 0;
+      width: 0;
+      border: solid transparent; }
+    .svg-container .arrow::after {
+      border-bottom-color: #2FD26C;
+      border-width: 0.70175em;
+      margin-left: -0.70175em; }
+  .svg-container > div > a {
+    width: 6em;
+    min-height: 6em;
+    display: inline-block;
+    border: 1px solid #D2D9E0;
+    border-radius: 0.3em;
+    transition: border-color 0.4s ease;
+    text-decoration: none; }
+    .svg-container > div > a > svg {
+      display: block;
+      height: 4em;
+      margin: 1em auto 0;
+      fill: #D2D9E0;
+      transition: fill 0.4s ease; }
+      .svg-container > div > a > svg > text {
+        -webkit-user-select: none;
+           -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none; }
+    .svg-container > div > a > .arrow-wrap {
+      position: relative;
+      margin-top: 0.66667em;
+      max-height: 0;
+      overflow-y: hidden;
+      transition: max-height 0.2s ease; }
+    .svg-container > div > a > .arrow-wrap > .arrow {
+      z-index: 1;
+      border-bottom-left-radius: 0.15em;
+      border-bottom-right-radius: 0.15em;
+      padding: 0.3em 0;
+      background-color: #2FD26C;
+      color: #121920;
+      text-align: center;
+      border-color: #2FD26C transparent transparent;
+      border-width: 1px 0 0; }
+    .svg-container > div > a > .arrow-wrap > .arrow::after {
+      margin-bottom: -0.57675em;
+      transition: margin-bottom 0.2s ease; }
+  .svg-container > div > a:hover {
+    background: none;
+    border-color: #2FD26C; }
+    .svg-container > div > a:hover > svg {
+      fill: #2FD26C; }
+    .svg-container > div > a:hover > .arrow-wrap {
+      max-height: 100%;
+      transition: max-height 0.8s ease-in-out; }
+      .svg-container > div > a:hover > .arrow-wrap > .arrow::after {
+        margin-bottom: 0;
+        transition: margin-bottom 0.4s ease-in; }
+
+#info-back1info-backnfo-back3, #info-wrap {
+  width: 65%;
+  height: 85%;
+  left: 17.5%;
+  top: 7.5%;
+  position: absolute;
+  min-width: 28em; }
+
+#info-back {
+  position: absolute;
+  display: block;
+  content: '';
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: #0a0b0b;
+  opacity: 0.5; }
+
+#info-wrap {
+  background-color: transparent;
+  border: 1px solid #121920; }
+
+#info {
+  height: 100%; }
+  #info > #info-inner {
+    padding: 2em;
+    padding-bottom: 0;
+    font: 300 1.1rem "HelveticaNeueLight", "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeue", "Helvetica Neue", "Helvetica", "Arial", sans-serif; }
+    #info > #info-inner .h1 {
+      font: 100 1.1rem "HelveticaNeue-UltraLight", "Helvetica Neue UltraLight", "HelveticaNeueUltraLight", "HelveticaNeue-Ultra-Light", "Helvetica Neue Ultra Light", "HelveticaNeue", "Helvetica Neue", "Arial", sans-serif;
+      font-size: 4.4rem;
+      text-align: center;
+      margin-bottom: 1.1rem; }
+

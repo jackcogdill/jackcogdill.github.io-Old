@@ -1,3 +1,5 @@
+import style from "../css/main.scss";
+
 // Inner function(incr), callback function, max increment,
 // initial delay, minimum delay, exponent, divisor
 function ease(ifun, callback, max=100, init=100, mind=16.67, ex=Math.E, div=30) {
